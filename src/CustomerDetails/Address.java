@@ -5,17 +5,17 @@ public class Address {
     private String street;
     private String district;
     private int buildingNo;
-    private int buildingFloor;
-    private int buildingFlat;
+    private int floorNo;
+    private int flatNo;
     private String landmark;
 
-    public Address(String gov, String street, String district, int buildingNo, int buildingFloor, int buildingFlat) {
+    public Address(String gov, String street, String district, int buildingNo, int floorNo, int flatNo) {
         this.governorate = gov;
         this.street = street;
         this.district = district;
         this.buildingNo = buildingNo;
-        this.buildingFloor = buildingFloor;
-        this.buildingFlat = buildingFlat;
+        this.floorNo = floorNo;
+        this.flatNo = flatNo;
     }
 
     public void setLandmark(String landmark) {
