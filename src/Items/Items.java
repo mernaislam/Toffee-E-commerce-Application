@@ -46,7 +46,11 @@ public class Items {
         this.description = description;
     }
 
-//    //Needed if we want to change the original price of the item
+    public double getPrice() {
+        return price;
+    }
+
+    //    //Needed if we want to change the original price of the item
 //    public void setPrice(double price) {
 //        this.price = price;
 //    }

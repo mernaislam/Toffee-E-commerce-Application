@@ -50,7 +50,7 @@ public class Customer {
         // add username and password to a file
     }
     public void addToCart(Items item){
-
+        cart.addItem(item);
     }
     public void checkout(){
 
