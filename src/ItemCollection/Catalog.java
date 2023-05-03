@@ -19,6 +19,22 @@ public class Catalog {
         }
     }
 
+    public void displayByCategory(){
+        for (Category category: categories) {
+            System.out.println(category.getName());
+            for (Items item: category.getItems()){
+                System.out.println(item);
+            }
+        }
+    }
+
+    public void displayAllItems(){
+        for (Items item: items){
+            System.out.println(item);
+//            System.out.println(item.price);
+        }
+    }
+
     public void addCategory(String Name){
 //        categories.add()
     }
