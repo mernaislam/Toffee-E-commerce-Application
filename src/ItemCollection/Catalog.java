@@ -30,7 +30,7 @@ public class Catalog {
 
     public void displayAllItems(){
         for (Items item: items){
-            System.out.print(item + " " + item.getPrice());
+            System.out.print(item + " " + item.getPrice() + " " + item.getQuantity());
         }
     }
 

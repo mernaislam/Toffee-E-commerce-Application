@@ -6,7 +6,7 @@ public class Account {
     private String username;
     private String email;
     private String password;
-    private ArrayList<Address> addresses;
+    private ArrayList<Address> addresses = new ArrayList<Address>();
     public Account(String username, String email, String password, Address address){
         this.username = username;
         this.email = email;

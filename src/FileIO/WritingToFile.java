@@ -8,10 +8,10 @@ import java.io.BufferedWriter;
 public class WritingToFile {
     BufferedWriter writer;
 
-    public WritingToFile(String s){
+    public WritingToFile(String fileName, String line){
         try {
-            writer = new BufferedWriter (new FileWriter("Toffee-E-commerce-Application/userData.txt", true));
-            writer.write(s + "\n");
+            writer = new BufferedWriter (new FileWriter("Toffee-E-commerce-Application/" + fileName + ".txt", true));
+            writer.write(line + "\n");
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
