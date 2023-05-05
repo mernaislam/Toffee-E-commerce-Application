@@ -1,4 +1,5 @@
 package CustomerDetails;
+import ItemCollection.Catalog;
 import  OrderDetails.Order;
 import Items.Items;
 import ShoppingCart.Cart;
@@ -17,6 +18,16 @@ public class Customer {
     private int id;
     private Cart cart;
     private ArrayList<Order> orders = new ArrayList<Order>();
+
+    public void login(){
+        Scanner s = new Scanner(System.in);
+        System.out.println("Please enter your credentials.");
+        System.out.print("Username: ");
+        String username = s.nextLine();
+        System.out.print("Password: ");
+        String password = s.nextLine();
+        login(username, password);
+    }
     public void login(String username, String password){
         BufferedReader reader;
         try {
@@ -50,15 +61,34 @@ public class Customer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Welcome to Toffee Application");
         mainMenu();
     }
 
     public void mainMenu(){
         Scanner s = new Scanner(System.in);
-        System.out.println("Welcome to Toffee Application");
         System.out.println("1. View Catalog (All Items). \n2. View Catalog by Categories. \n3. checkout. \n4. Exit");
         System.out.println("Please enter your choice: ");
         int choice = s.nextInt();
+        switch(choice){
+            case 1: {
+                Catalog catalog = new Catalog();
+                catalog.displayAllItems();
+                chooseItem();
+            }
+            case 2: {
+                Catalog catalog = new Catalog();
+                catalog.displayByCategory();
+                chooseItemCategory();
+            }
+            case 3: {
+                System.out.println("Thank you for using Toffee!");
+            }
+            default: {
+                System.out.println("Invalid Choice try again:");
+                mainMenu();
+            }
+        }
     }
     public void register(){
         Scanner s = new Scanner(System.in);
@@ -125,6 +155,40 @@ public class Customer {
 
     public void addToCart(Items item){
         cart.addItem(item);
+    }
+
+    public void chooseItemCategory(){
+        Catalog catalog = new Catalog();
+        System.out.println("\nSpecify your choice: ");
+        System.out.println("1. choose Item. \n2. Return to main menu.");
+        Scanner s = new Scanner(System.in);
+        int choice = s.nextInt();
+        if(choice == 1){
+            System.out.print("Enter Category Name: ");
+//            String category = s.nextLine();
+//            while(!catalog.getCategories().contains(category)){
+//                System.out.print("Invalid category, try again: ");
+//                category = s.nextLine();
+//            }
+        } else {
+            mainMenu();
+        }
+    }
+
+    public void chooseItem(){
+        Catalog catalog = new Catalog();
+        System.out.println("\nSpecify your choice: ");
+        System.out.println("1. choose Item. \n2. Return to main menu.");
+        Scanner s = new Scanner(System.in);
+        int choice = s.nextInt();
+        if(choice == 1){
+            System.out.print("Enter Item number: ");
+            int itemChoice = s.nextInt();
+            ArrayList<Items> arr = catalog.getItems();
+            System.out.print(arr.get(itemChoice));
+        } else {
+            mainMenu();
+        }
     }
 
     public void checkout(){

@@ -1,12 +1,15 @@
 package ItemCollection;
 
+import CustomerDetails.Customer;
 import Items.Items;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
 
 public class Catalog {
-    private ArrayList<Items> items;
-    private ArrayList<Category> categories;
+    private ArrayList<Items> items = new ArrayList<Items>();
+    private ArrayList<Category> categories = new ArrayList<Category>();
     public void addItem(Items item){
         items.add(item);
     }
@@ -21,20 +24,33 @@ public class Catalog {
 
     public void displayByCategory(){
         for (Category category: categories) {
-            System.out.println(category.getName());
+            int cnt = 1;
+            System.out.println("Category: " + category.getName());
+            System.out.println("Item     Price     Quantity");
             for (Items item: category.getItems()){
-                System.out.println(item);
+                System.out.println(cnt + ". " + item + " " + item.getPrice() + " " + item.getQuantity());
+                cnt++;
             }
         }
     }
 
     public void displayAllItems(){
+        System.out.println("Item     Price     Quantity");
         for (Items item: items){
-            System.out.print(item + " " + item.getPrice() + " " + item.getQuantity());
+            System.out.println(item + " " + item.getPrice() + " " + item.getQuantity());
         }
     }
 
-    public void addCategory(String Name){
-//        categories.add()
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    public ArrayList<Items> getItems() {
+        return items;
+    }
+
+    public void addCategory(String name){
+        Category category= new Category(name);
+        categories.add(category);
     }
 }
