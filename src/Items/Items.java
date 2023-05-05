@@ -50,7 +50,10 @@ public class Items {
         return price;
     }
 
-    //    //Needed if we want to change the original price of the item
+    public int getQuantity() {
+        return quantity;
+    }
+//    //Needed if we want to change the original price of the item
 //    public void setPrice(double price) {
 //        this.price = price;
 //    }
