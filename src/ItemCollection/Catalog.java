@@ -1,6 +1,7 @@
 package ItemCollection;
 
 import CustomerDetails.Customer;
+import FileIO.ReadingFromFile;
 import Items.Items;
 
 import java.util.ArrayList;
@@ -35,10 +36,14 @@ public class Catalog {
     }
 
     public void displayAllItems(){
-        System.out.println("Item     Price     Quantity");
-        for (Items item: items){
-            System.out.println(item + " " + item.getPrice() + " " + item.getQuantity());
-        }
+        System.out.println("ID     Item     Price     Quantity");
+        ReadingFromFile read = new ReadingFromFile();
+        read.display("ItemList");
+//        for (Items item: items){
+//            System.out.println(item + " " + item.getPrice() + " " + item.getQuantity());
+//        }
+
+
     }
 
     public ArrayList<Category> getCategories() {
