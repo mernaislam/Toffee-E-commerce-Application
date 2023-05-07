@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Cart {
     private Double totalPrice;
     private ArrayList<Items> items = new ArrayList<Items>();
-    private HashMap<Items,Integer>map;
+    private HashMap<Items,Integer> map;
     public Cart(){
 
     }
