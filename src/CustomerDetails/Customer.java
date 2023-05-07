@@ -1,4 +1,5 @@
 package CustomerDetails;
+import ItemCollection.Catalog;
 import  OrderDetails.Order;
 import Items.Items;
 import ShoppingCart.Cart;
@@ -9,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +19,18 @@ public class Customer {
     private int id;
     private Cart cart;
     private ArrayList<Order> orders = new ArrayList<Order>();
-    public void login(String username, String password){
+
+    public boolean login(){
+        Scanner s = new Scanner(System.in);
+        System.out.println("Please enter your credentials.");
+        System.out.print("Username: ");
+        String username = s.nextLine();
+        System.out.print("Password: ");
+        String password = s.nextLine();
+        return login(username, password);
+    }
+
+    public boolean login(String username, String password){
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader("Toffee-E-commerce-Application/CustomerDetails.txt"));
@@ -35,13 +48,13 @@ public class Customer {
                             password = s.nextLine();
                             if(line.equals(password)){
                                 System.out.println("Successfully Logged in");
-                                break;
+                                return true;
                             }
                             cnt--;
                         }
                         if(cnt == 0){
                             System.out.println("Failed to log in");
-                            return;
+                            return false;
                         }
                     }
                 }
@@ -50,16 +63,9 @@ public class Customer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        mainMenu();
+        return true;
     }
 
-    public void mainMenu(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("Welcome to Toffee Application");
-        System.out.println("1. View Catalog (All Items). \n2. View Catalog by Categories. \n3. checkout. \n4. Exit");
-        System.out.println("Please enter your choice: ");
-        int choice = s.nextInt();
-    }
     public void register(){
         Scanner s = new Scanner(System.in);
         System.out.print("Please enter a username: ");
@@ -67,16 +73,23 @@ public class Customer {
 
         // verify username does not exists to prevent duplicates
         ReadingFromFile read = new ReadingFromFile();
-        while(read.isEmailExist("CustomerDetails", username)){
-            System.out.print("Username already exists, please enter another username: ");
-            username = s.nextLine();
+        while(read.isEmailExist("CustomerDetails", username) || isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
+            if(read.isEmailExist("CustomerDetails", username)) {
+                System.out.print("Username already exists, please enter another username: ");
+                username = s.nextLine();
+            } else if(isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
+                System.out.print("Invalid format for username (ex: alex_tom): ");
+                username = s.nextLine();
+            } else {
+                break;
+            }
         }
 
         System.out.print("Please enter an email: ");
         String email = s.nextLine();
 
         // validate email
-        while(!isValidEmail(email)){
+        while(!isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
             System.out.print("Please enter a valid email: ");
             email = s.nextLine();
         }
@@ -85,7 +98,7 @@ public class Customer {
         String pass1 = s.nextLine();
 
         // regex strong password
-        while(!isValidPassword(pass1)){
+        while(!isValid(pass1, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$")){
             System.out.print("Please enter a strong password: ");
             pass1 = s.nextLine();
         }
@@ -121,10 +134,82 @@ public class Customer {
         // Writing data to file
         WritingToFile writeUsername = new WritingToFile("CustomerDetails", username);
         WritingToFile writePassword = new WritingToFile("CustomerDetails", pass1);
+        login(username, pass1);
+    }
+
+    public void displayMainMenu(){
+        Catalog catalog = new Catalog();
+        
+        Scanner s = new Scanner(System.in);
+        System.out.println("1. View Catalog (All Items). \n2. View Catalog by Categories. \n3. checkout. \n4. Exit");
+        System.out.println("Please enter your choice: ");
+        int choice = s.nextInt();
+        switch(choice){
+            case 1: {
+                catalog.displayAllItems();
+                chooseItem();
+            }
+            case 2: {
+                catalog.displayByCategory();
+                chooseItemCategory();
+            }
+            case 3: {
+                System.out.println("Nothing in cart for checkout! ");
+                System.out.println("Returning to main menu... ");
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                displayMainMenu();
+            }
+            case 4: {
+                System.out.println("Thank you for using Toffee!");
+                return;
+            }
+            default: {
+                System.out.println("Invalid Choice try again:");
+                displayMainMenu();
+            }
+        }
     }
 
     public void addToCart(Items item){
         cart.addItem(item);
+    }
+
+    public void chooseItemCategory(){
+        Catalog catalog = new Catalog();
+        System.out.println("\nSpecify your choice: ");
+        System.out.println("1. choose Item. \n2. Return to main menu.");
+        Scanner s = new Scanner(System.in);
+        int choice = s.nextInt();
+        if(choice == 1){
+            System.out.print("Enter Category Name: ");
+//            String category = s.nextLine();
+//            while(!catalog.getCategories().contains(category)){
+//                System.out.print("Invalid category, try again: ");
+//                category = s.nextLine();
+//            }
+        } else {
+            displayMainMenu();
+        }
+    }
+
+    public void chooseItem(){
+        Catalog catalog = new Catalog();
+        System.out.println("\nSpecify your choice: ");
+        System.out.println("1. choose Item. \n2. Return to main menu.");
+        Scanner s = new Scanner(System.in);
+        int choice = s.nextInt();
+        if(choice == 1){
+            System.out.print("Enter Item number: ");
+            int itemChoice = s.nextInt();
+            ArrayList<Items> arr = catalog.getItems();
+            System.out.print(arr.get(itemChoice));
+        } else {
+            displayMainMenu();
+        }
     }
 
     public void checkout(){
@@ -135,19 +220,11 @@ public class Customer {
 
     }
 
-    public static boolean isValidEmail(String email)
+    public static boolean isValid(String input, String regexData)
     {
-        String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        String regex = regexData;
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    public static boolean isValidPassword(String password)
-    {
-        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(password);
+        Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }
 }
