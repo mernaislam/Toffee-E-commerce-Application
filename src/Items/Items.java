@@ -9,7 +9,7 @@ public class Items {
     private double price;
     private int quantity;
     private UnitType unitType;
-    private ArrayList<Category> categories;
+    private ArrayList<Category> categories = new ArrayList<Category>();
     private String brand;
     private double discountAmount;
     private ItemStatus itemStatus;
