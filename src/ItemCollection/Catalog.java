@@ -27,16 +27,16 @@ public class Catalog {
         for (Category category: categories) {
             int cnt = 1;
             System.out.println("Category: " + category.getName());
-            System.out.println("Item     Price     Quantity");
-            for (Items item: category.getItems()){
-                System.out.println(cnt + ". " + item + " " + item.getPrice() + " " + item.getQuantity());
-                cnt++;
-            }
+            System.out.println("Item\t\tPrice\t\tQuantity");
+//            for (Items item: category.getItems()){
+//                System.out.println(cnt + ". " + item + " " + item.getPrice() + " " + item.getQuantity());
+//                cnt++;
+//            }
         }
     }
 
     public void displayAllItems(){
-        System.out.println("ID     Item     Price     Quantity");
+        System.out.println("ID\t\tItem\t\tPrice\t\tQuantity");
         ReadingFromFile read = new ReadingFromFile();
         read.display("ItemList");
 //        for (Items item: items){

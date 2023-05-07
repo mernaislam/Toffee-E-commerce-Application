@@ -15,43 +15,43 @@ public class Items {
     private double price;
     private int quantity;
     private UnitType unitType;
-    private ArrayList<Category> categories = new ArrayList<Category>();
+    private String category;
     private String brand;
     private double discountAmount;
     private ItemStatus itemStatus;
     private String description;
 
 
-    public Items(String name, double price, int quantity, UnitType unitType, Category category, String brand) {
+    public Items(String name, double price, int quantity, UnitType unitType, String category, String brand) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.unitType = unitType;
-        this.categories.add(category);
+        this.category = category;
         this.brand = brand;
-        BufferedReader writer;
+        BufferedReader read;
         String lastId = null;
-        int newId = 0;
+        int newId = 1;
         String line;
         try {
-            writer = new BufferedReader(new FileReader("Toffee-E-commerce-Application/ItemList.txt"));
-            while((line = writer.readLine()) != null){
-                String[] words = line.split(" ");
+            read = new BufferedReader(new FileReader("Toffee-E-commerce-Application/ItemList.txt"));
+            while((line = read.readLine()) != null){
+                String[] words = line.split("\t\t");
                 lastId = words[0];
             }
             if(lastId != null) {
                 newId = Integer.parseInt(lastId);
                 newId++;
             }
-            writer.close();
+            read.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         this.id = newId;
-        String ItemData = id + "\t" + name + "\t" + price + "\t" + quantity;
+        String ItemData = id + "\t\t" + name + "\t\t" + price + "\t\t" + quantity;
         WritingToFile writeItem = new WritingToFile("ItemList", ItemData);
-//        Catalog.addItem(this);
     }
+
 //    //Needed if we want to add this item to another category
 //    public void addCategory(Category category){
 //        categories.add(category);
@@ -84,4 +84,8 @@ public class Items {
 //    public void setPrice(double price) {
 //        this.price = price;
 //    }
+
+    public String getCategory() {
+        return category;
+    }
 }

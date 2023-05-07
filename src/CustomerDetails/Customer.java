@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +29,7 @@ public class Customer {
         String password = s.nextLine();
         return login(username, password);
     }
+
     public boolean login(String username, String password){
         BufferedReader reader;
         try {
@@ -64,31 +66,6 @@ public class Customer {
         return true;
     }
 
-    public void displayMainMenu(){
-        Scanner s = new Scanner(System.in);
-        System.out.println("1. View Catalog (All Items). \n2. View Catalog by Categories. \n3. checkout. \n4. Exit");
-        System.out.println("Please enter your choice: ");
-        int choice = s.nextInt();
-        switch(choice){
-            case 1: {
-                Catalog catalog = new Catalog();
-                catalog.displayAllItems();
-                chooseItem();
-            }
-            case 2: {
-                Catalog catalog = new Catalog();
-                catalog.displayByCategory();
-                chooseItemCategory();
-            }
-            case 3: {
-                System.out.println("Thank you for using Toffee!");
-            }
-            default: {
-                System.out.println("Invalid Choice try again:");
-                displayMainMenu();
-            }
-        }
-    }
     public void register(){
         Scanner s = new Scanner(System.in);
         System.out.print("Please enter a username: ");
@@ -97,11 +74,15 @@ public class Customer {
         // verify username does not exists to prevent duplicates
         ReadingFromFile read = new ReadingFromFile();
         while(read.isEmailExist("CustomerDetails", username) || isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
-            if(read.isEmailExist("CustomerDetails", username))
+            if(read.isEmailExist("CustomerDetails", username)) {
                 System.out.print("Username already exists, please enter another username: ");
-            if(isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$"))
+                username = s.nextLine();
+            } else if(isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
                 System.out.print("Invalid format for username (ex: alex_tom): ");
-            username = s.nextLine();
+                username = s.nextLine();
+            } else {
+                break;
+            }
         }
 
         System.out.print("Please enter an email: ");
@@ -154,6 +135,43 @@ public class Customer {
         WritingToFile writeUsername = new WritingToFile("CustomerDetails", username);
         WritingToFile writePassword = new WritingToFile("CustomerDetails", pass1);
         login(username, pass1);
+    }
+
+    public void displayMainMenu(){
+        Catalog catalog = new Catalog();
+        
+        Scanner s = new Scanner(System.in);
+        System.out.println("1. View Catalog (All Items). \n2. View Catalog by Categories. \n3. checkout. \n4. Exit");
+        System.out.println("Please enter your choice: ");
+        int choice = s.nextInt();
+        switch(choice){
+            case 1: {
+                catalog.displayAllItems();
+                chooseItem();
+            }
+            case 2: {
+                catalog.displayByCategory();
+                chooseItemCategory();
+            }
+            case 3: {
+                System.out.println("Nothing in cart for checkout! ");
+                System.out.println("Returning to main menu... ");
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                displayMainMenu();
+            }
+            case 4: {
+                System.out.println("Thank you for using Toffee!");
+                return;
+            }
+            default: {
+                System.out.println("Invalid Choice try again:");
+                displayMainMenu();
+            }
+        }
     }
 
     public void addToCart(Items item){
