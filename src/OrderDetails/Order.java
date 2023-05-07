@@ -9,8 +9,9 @@ public class Order {
     private Double totalPrice;
     private Address shippingAddress;
     private Cart cart;
-    //Payment paymentMethod;
+    private PaymentMethod payment;
     private OrderStatus status;
+
 
     public Order(String id,Cart cart){
         this.id = id;
@@ -26,5 +27,9 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public void setPayment(PaymentMethod payment) {
+        this.payment = payment;
     }
 }
