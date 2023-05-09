@@ -22,11 +22,10 @@ public class Items {
     private String description;
 
 
-    public Items(String name, double price, int quantity, UnitType unitType, String category, String brand) {
+    public Items(String name, double price, int quantity, String category, String brand) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.unitType = unitType;
         this.category = category;
         this.brand = brand;
         BufferedReader read;
@@ -57,27 +56,33 @@ public class Items {
 //        categories.add(category);
 //        category.addItem(this);
 //    }
-    public void setItemStatus(ItemStatus itemStatus){
+    public void setItemStatus(ItemStatus itemStatus)
+    {
         this.itemStatus = itemStatus;
     }
-    public void setQuantity(int quantity){
+    public void setQuantity(int quantity)
+    {
         this.quantity = quantity;
     }
 
-    public void setDiscountAmount(double discountAmount) {
+    public void setDiscountAmount(double discountAmount)
+    {
         this.discountAmount = discountAmount;
         price -= (price*discountAmount);
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
-    public double getPrice() {
+    public double getPrice()
+    {
         return price;
     }
 
-    public int getQuantity() {
+    public int getQuantity()
+    {
         return quantity;
     }
 //    //Needed if we want to change the original price of the item
@@ -85,7 +90,16 @@ public class Items {
 //        this.price = price;
 //    }
 
-    public String getCategory() {
+    public String getCategory()
+    {
         return category;
+    }
+
+    public void setUnitType(UnitType unitType)
+    {
+        this.unitType = unitType;
+    }
+    public int getId(){
+        return id;
     }
 }

@@ -4,7 +4,7 @@ import Items.Items;
 import java.util.ArrayList;
 
 public class Category {
-    private ArrayList<Items> items;
+    private ArrayList<Items> items = new ArrayList<Items>();
     private String name;
     private double discount;
 
