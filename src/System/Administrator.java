@@ -60,7 +60,7 @@ public class Administrator {
                         password = s.nextLine();
                         if(line.equals(password))
                         {
-                            System.out.println("Successfully logged in");
+                            System.out.println("Successfully logged in\n");
                             return true;
                         }
                         cnt--;
@@ -114,7 +114,7 @@ public class Administrator {
         //Writing to file
         WritingToFile writeUsername = new WritingToFile("AdminDetails", username);
         WritingToFile writePassword = new WritingToFile("AdminDetails", pass2);
-        System.out.println("This admin is successfully added to the system.");
+        System.out.println("This admin is successfully added to the system.\n");
         displayMainMenu();
         }
 

@@ -24,14 +24,13 @@ public class Catalog {
     }
 
     public void displayByCategory(Catalog catalog){
-        System.out.println("ID\t\tItem\t\tPrice\t\tQuantity");
-//        ReadingFromFile read = new ReadingFromFile();
-//        read.display("CategoriesList");
         for (Category cat: categories) {
             System.out.println("Category: " + cat.getName());
+            System.out.println("ID\t\tItem\t\tPrice\t\tQuantity");
             for (Items item: cat.getItems()){
                 System.out.println( item.getId() + "\t\t" + item.getName() + "\t\t" + item.getPrice() + "\t\t" + item.getQuantity());
             }
+            System.out.println();
         }
 
     }

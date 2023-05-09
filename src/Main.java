@@ -1,22 +1,15 @@
-import CustomerDetails.Customer;
-import FileIO.ReadingFromFile;
-import FileIO.WritingToFile;
-import ItemCollection.Catalog;
-import ItemCollection.Category;
 import System.SystemManager;
-import System.Administrator;
-import Items.Items;
-
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import static Items.UnitType.Loose;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         SystemManager system = new SystemManager();
 //        system.runAdminApp();
+        system.runUserApp();
+    }
+}
+
+
 
 //        Items item1 = new Items("Twix", 30, 50 ,"Chocolates", "Twix");
 //        item1.writeItemToFile();
@@ -38,19 +31,13 @@ public class Main {
 //        Items item8 = new Items("Flutes", 30, 7,"Chocolates", "Galaxy");
 //        Items item89 = new Items("M&&M", 70, 7, "Chocolates", "M&M");
 //
-        Items item9 = new Items("Haribo", 60, 7, "Marshmallow", "Chamallows");
-        item9.writeItemToFile();
-
-        Items item10 = new Items("Bebeto", 30, 7, "Marshmallow", "Bebeto");
-        item10.writeItemToFile();
-
-        Items item11 = new Items("MrMalo", 30, 7, "Marshmallow", "Mr,Malo");
-        item11.writeItemToFile();
+//        Items item9 = new Items("Haribo", 60, 7, "Marshmallow", "Chamallows");
+//        item9.writeItemToFile();
+//
+//        Items item10 = new Items("Bebeto", 30, 7, "Marshmallow", "Bebeto");
+//        item10.writeItemToFile();
+//
+//        Items item11 = new Items("MrMalo", 30, 7, "Marshmallow", "Mr,Malo");
+//        item11.writeItemToFile();
 //        Items item12 = new Items("Marshzo", 30, 7, "Marshmallow", "Marshzone");
-
-        system.runUserApp();
-    }
-
-
-}
 
