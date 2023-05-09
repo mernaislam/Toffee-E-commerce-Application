@@ -45,10 +45,8 @@ class CoD extends PaymentMethod{
         return false;
     }
     public static void main(String[] args) {
-        Category waffles = new Category("waffles");
-        Category candies = new Category("candies");
-        Items []items = {new Items(1191,"american waffle",20.2,10, UnitType.Sealed,waffles,"nutella"),
-                new Items(2132,"candy bar",10.4,30, UnitType.Loose,candies,"nutella")
+        Items []items = {new Items("american waffle",20.2,10,"waffles","nutella"),
+                new Items("candy bar",10.4,30,"candies","nutella")
         };
         Cart c = new Cart();
         for (int i = 0;i < items.length;i++){
@@ -56,7 +54,7 @@ class CoD extends PaymentMethod{
         }
         for (int i = 0;i < items.length;i++){
             double totalPrice = items[i].getPrice();
-            c.setTotalPrice(totalPrice);
+            c.setTotalPrice();
         }
         Order order = new Order("1012",c);
         CoD paymentMethod = new CoD();

@@ -1,5 +1,6 @@
 package CustomerDetails;
 import ItemCollection.Catalog;
+import ItemCollection.Category;
 import  OrderDetails.Order;
 import Items.Items;
 import ShoppingCart.Cart;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
 public class Customer {
     private Account account;
     private int id;
-    private Cart cart;
+    private Cart cart = new Cart();
     private ArrayList<Order> orders = new ArrayList<Order>();
 
     public boolean login(){
@@ -39,7 +40,7 @@ public class Customer {
                 if(line.equals(username)){
                     line = reader.readLine();
                     if(line.equals(password)){
-                        System.out.println("Successfully Logged in");
+                        System.out.println("Successfully Logged in\n");
                     } else {
                         int cnt = 3;
                         while(cnt != 0){
@@ -47,7 +48,7 @@ public class Customer {
                             Scanner s = new Scanner(System.in);
                             password = s.nextLine();
                             if(line.equals(password)){
-                                System.out.println("Successfully Logged in");
+                                System.out.println("Successfully Logged in\n");
                                 return true;
                             }
                             cnt--;
@@ -130,7 +131,7 @@ public class Customer {
         Address add = new Address(gov, street, district, buildingNo, floorNo, flatNo);
         Account acc = new Account(username, email, pass1, add);
         account = acc;
-
+        System.out.println("Account is created successfully!\n");
         // Writing data to file
         WritingToFile writeUsername = new WritingToFile("CustomerDetails", username);
         WritingToFile writePassword = new WritingToFile("CustomerDetails", pass1);
@@ -139,29 +140,84 @@ public class Customer {
 
     public void displayMainMenu(){
         Catalog catalog = new Catalog();
-        
+
+        Category cat = new Category();
+        BufferedReader read;
+        String strId = null;
+        String strPrice = null;
+        String strQuantity = null;
+        int intId = 1;
+        double doublePrice = 1.0;
+        int intQuantity = 1;
+        String line;
+        try {
+            read = new BufferedReader(new FileReader("Toffee-E-commerce-Application/ItemFullData.txt"));
+            while((line = read.readLine()) != null){
+                String[] words = line.split("\t\t");
+                strId = words[0];
+                String name = words[1];
+                strPrice = words[2];
+                strQuantity = words[3];
+                String category = words[4];
+                String brand = words[5];
+                intId = Integer.parseInt(strId);
+                doublePrice = Double.parseDouble(strPrice);
+                intQuantity = Integer.parseInt(strQuantity);
+                Items item = new Items(name, doublePrice, intQuantity, category, brand);
+                item.setId(intId);
+                catalog.addItem(item);
+            }
+            read.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<String> categories = new ArrayList<String>();
+        for (Items items: catalog.getItems()) {
+            if(!categories.contains(items.getCategory())){
+                categories.add(items.getCategory());
+            }
+        }
+        for (String category: categories) {
+            Category category1 = new Category();
+            category1.setName(category);
+            for (Items item: catalog.getItems()) {
+                if(item.getCategory().equals(category)){
+                    category1.addItem(item);
+                }
+            }
+            catalog.addCategory(category1);
+        }
         Scanner s = new Scanner(System.in);
         System.out.println("1. View Catalog (All Items). \n2. View Catalog by Categories. \n3. checkout. \n4. Exit");
         System.out.println("Please enter your choice: ");
         int choice = s.nextInt();
         switch(choice){
             case 1: {
-                catalog.displayAllItems();
-                chooseItem();
+                catalog.displayAllItems(catalog);
+                System.out.println("\nSpecify your choice: ");
+                System.out.println("1. choose Item to add to cart. \n2. Return to main menu.");
+                choice = s.nextInt();
+                if(choice == 1){
+                    chooseItem(catalog);
+                } else if (choice == 2){
+                    displayMainMenu();
+                }
+                return;
             }
             case 2: {
-                catalog.displayByCategory();
-                chooseItemCategory();
+                catalog.displayByCategory(catalog);
+                System.out.println("\nSpecify your choice: ");
+                System.out.println("1. choose Item to add to cart. \n2. Return to main menu.");
+                choice = s.nextInt();
+                if(choice == 1){
+                    chooseItem(catalog);
+                } else if (choice == 2){
+                    displayMainMenu();
+                }
+                return;
             }
             case 3: {
-                System.out.println("Nothing in cart for checkout! ");
-                System.out.println("Returning to main menu... ");
-                try {
-                    TimeUnit.SECONDS.sleep(3);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                displayMainMenu();
+                checkout(catalog);
             }
             case 4: {
                 System.out.println("Thank you for using Toffee!");
@@ -174,49 +230,97 @@ public class Customer {
         }
     }
 
-    public void addToCart(Items item){
+    public void addToCart(Items item, int quantity){
         cart.addItem(item);
+        while(quantity != 0){
+            cart.addToMap(item);
+            quantity--;
+        }
     }
 
-    public void chooseItemCategory(){
-        Catalog catalog = new Catalog();
-        System.out.println("\nSpecify your choice: ");
-        System.out.println("1. choose Item. \n2. Return to main menu.");
+    public void chooseItem(Catalog catalog){
         Scanner s = new Scanner(System.in);
+        System.out.print("Enter Item number: ");
+        int itemChoice = s.nextInt();
+        System.out.print("Enter Item Quantity: ");
+        int quantity = s.nextInt();
+        boolean isfound = false;
+        for (Items item: catalog.getItems()) {
+            if(item.getId() == itemChoice){
+                System.out.println("Item: " + item.getName() + " with price " + item.getPrice() + " L.E is added to cart Successfully!\n");
+                isfound = true;
+                addToCart(item, quantity);
+                break;
+            }
+        }
+        if(!isfound){
+            System.out.println("Invalid Item number, please try again!");
+            chooseItem(catalog);
+        }
+        System.out.println("1. Checkout. \n2. Add another Item  \n3. Return to main menu.");
         int choice = s.nextInt();
-        if(choice == 1){
-            System.out.print("Enter Category Name: ");
-//            String category = s.nextLine();
-//            while(!catalog.getCategories().contains(category)){
-//                System.out.print("Invalid category, try again: ");
-//                category = s.nextLine();
-//            }
-        } else {
+        if (choice == 1){
+            checkout(catalog);
+        } else if(choice == 2){
+            chooseItem(catalog);
+        } else if(choice == 3){
             displayMainMenu();
         }
     }
 
-    public void chooseItem(){
-        Catalog catalog = new Catalog();
-        System.out.println("\nSpecify your choice: ");
-        System.out.println("1. choose Item. \n2. Return to main menu.");
-        Scanner s = new Scanner(System.in);
-        int choice = s.nextInt();
-        if(choice == 1){
-            System.out.print("Enter Item number: ");
-            int itemChoice = s.nextInt();
-            ArrayList<Items> arr = catalog.getItems();
-            System.out.print(arr.get(itemChoice));
-        } else {
-            displayMainMenu();
+    public void checkout(Catalog catalog){
+        boolean isEmpty = true;
+        System.out.println("\nYour Cart:");
+        System.out.println("\tName\tPrice\tQuantity");
+        for (Items item: cart.getItems()) {
+            isEmpty = false;
+            System.out.println("\t" + item.getName() + "\t" + item.getPrice() + "\t" + cart.getMapValue(item));
         }
-    }
-
-    public void checkout(){
-
+        if(isEmpty){
+            System.out.println("\tNothing in cart for checkout! ");
+            System.out.println("Returning to main menu... ");
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            displayMainMenu();
+        } else {
+            cart.setTotalPrice();
+            System.out.println("Total Price = " + cart.getTotalPrice() + "\n");
+            Scanner s = new Scanner(System.in);
+            System.out.println("1. Proceed to payment. \n2. Add another item. \n3.Return to main menu");
+            int choice = s.nextInt();
+            if(choice == 1){
+                pay();
+            } else if(choice == 2){
+                chooseItem(catalog);
+            } else if(choice == 3){
+                displayMainMenu();
+            }
+        }
     }
 
     public void pay(){
+        System.out.println("Please enter your email: ");
+        System.out.println("Verifying your email... ");
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Enter your OTP number sent to your email: ");
+        Scanner s = new Scanner(System.in);
+        String otp = s.nextLine();
+        System.out.println("Your paying " + cart.getTotalPrice() + " using cash on delivery");
+        System.out.println("Do you want to confirm?\n 1. Yes \n 2. No");
+        String confirm = s.nextLine();
+        confirm = confirm.toLowerCase();
+        if(confirm.equals("yes")){
+            System.out.println("Order placed successfully!");
+        } else {
+            displayMainMenu();
+        }
 
     }
 
