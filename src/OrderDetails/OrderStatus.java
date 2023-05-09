@@ -1,6 +1,7 @@
 package OrderDetails;
 
 public enum OrderStatus {
-    Delivered,
-    NotDelivered
+    Active,
+    Inactive,
+    Cancelled
 }
