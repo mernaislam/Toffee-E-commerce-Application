@@ -42,30 +42,37 @@ public class Administrator {
         try{
             reader = new BufferedReader(new FileReader("Toffee-E-commerce-Application/AdminDetails.txt"));
             String line;
+            boolean found = false;
             while((line = reader.readLine()) != null){
                 if(line.equals(username))
                 {
+                    found = true;
                     line = reader.readLine();
-                }
-                if(line.equals(password))
-                {
-                    System.out.println("Successfully logged in");
-                    return true;
-                }
-                else{
-                    int cnt = 3;
-                    while(cnt != 0){
-                        System.out.print("In correct Password, please try again: ");
-                        Scanner s = new Scanner(System.in);
-                        password = s.nextLine();
-                        if(line.equals(password))
-                        {
-                            System.out.println("Successfully logged in\n");
-                            return true;
+                    if(line.equals(password))
+                    {
+                        System.out.println("Successfully logged in");
+                        return true;
+                    }
+                    else
+                    {
+                        int cnt = 3;
+                        while(cnt != 0){
+                            System.out.print("In correct Password, please try again: ");
+                            Scanner s = new Scanner(System.in);
+                            password = s.nextLine();
+                            if(line.equals(password))
+                            {
+                                System.out.println("Successfully logged in\n");
+                                return true;
+                            }
+                            cnt--;
                         }
-                        cnt--;
                     }
                 }
+            }
+            if(!found){
+                System.out.println("Username not found please try again: ");
+                login();
             }
             reader.close();
         }
@@ -121,7 +128,7 @@ public class Administrator {
     public void displayMainMenu() throws IOException {
         Catalog catalog = new Catalog();
         Scanner s = new Scanner(System.in);
-        System.out.println("1. Add New Admin to The System. \n2. Add Item. \n3. Set Discount. \n4. Exit");
+        System.out.println("1. Add New Admin to The System. \n2. Add Item. \n3. Exit");
         System.out.println("Please enter your choice: ");
         int choice = s.nextInt();
         switch(choice){
@@ -173,7 +180,7 @@ public class Administrator {
                 if(!read.isEmailExist("CategoriesList", category+":"))
                 {
                     // add the category to the catalog
-                    //add the item to the category
+                    // add the item to the category
                     WritingToFile write = new WritingToFile("CategoriesList", category +":");
                     WritingToFile writeItem = new WritingToFile("CategoriesList", ItemData);
                 }
@@ -182,7 +189,7 @@ public class Administrator {
                     //loop on the categories in the catalog to get the category you want and add the item in it
                     for(int i = 0; i < categories.size(); i++)
                     {
-                        if(categories.get(i).getName() == category)
+                        if(categories.get(i).getName().equals(category))
                         {
                             categories.get(i).addItem(item);
                             break;
@@ -192,7 +199,7 @@ public class Administrator {
                     writer.addUpdatedFileContent("CategoriesList",ItemData, category+":");
                 }
                 displayMainMenu();
-            case 4:
+            case 3:
             {
                 System.out.println("Thank you for using Toffee!");
                 return;
@@ -204,23 +211,4 @@ public class Administrator {
             }
         }
     }
-    public void setDiscountItem(Items item, double discount){
-        item.setDiscountAmount(discount);
-    }
-    public void setDiscountAllItems(Catalog catalog, double discount){
-
-    }
-    public void setDiscountCategory(Category category, double discount){
-
-    }
-
-//    //Needed to view one customer's orders using a function in customer to get the arraylist of orders
-//    public void viewCustomerOrders(Customer customer){
-//
-//    }
-
-//    //Needed to view all orders using a function display all orders in system
-//    public void viewAllOrders(SystemManager system){
-//        system.displayAllOrders();
-//    }
 }

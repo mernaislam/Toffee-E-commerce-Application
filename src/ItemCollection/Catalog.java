@@ -32,7 +32,6 @@ public class Catalog {
             }
             System.out.println();
         }
-
     }
 
     public void displayAllItems(Catalog catalog){
@@ -40,8 +39,6 @@ public class Catalog {
         for (Items item: catalog.items){
             System.out.println(item.getId() + "\t\t" + item.getName() + "\t\t" + item.getPrice() + "\t\t" + item.getQuantity());
         }
-
-
     }
 
     public ArrayList<Category> getCategories() {

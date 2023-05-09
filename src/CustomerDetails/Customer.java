@@ -6,6 +6,7 @@ import Items.Items;
 import OrderDetails.OrderStatus;
 import ShoppingCart.Cart;
 import FileIO.*;
+import System.OTP_manager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -37,8 +38,10 @@ public class Customer {
         try {
             reader = new BufferedReader(new FileReader("Toffee-E-commerce-Application/CustomerDetails.txt"));
             String line;
+            boolean found = false;
             while((line = reader.readLine()) != null){
                 if(line.equals(username)){
+                    found = true;
                     line = reader.readLine();
                     if(line.equals(password)){
                         System.out.println("Successfully Logged in\n");
@@ -60,6 +63,10 @@ public class Customer {
                         }
                     }
                 }
+            }
+            if(!found){
+                System.out.println("Username not found please try again: ");
+                login();
             }
             reader.close();
         } catch (IOException e) {
@@ -144,12 +151,12 @@ public class Customer {
 
         Category cat = new Category();
         BufferedReader read;
-        String strId = null;
-        String strPrice = null;
-        String strQuantity = null;
+        String strId;
+        String strPrice;
+        String strQuantity;
         int intId = 1;
-        double doublePrice = 1.0;
-        int intQuantity = 1;
+        double doublePrice;
+        int intQuantity;
         String line;
         try {
             read = new BufferedReader(new FileReader("Toffee-E-commerce-Application/ItemFullData.txt"));
@@ -308,24 +315,37 @@ public class Customer {
     }
 
     public void pay(Order order) throws IOException {
+        Scanner s = new Scanner(System.in);
         System.out.println("Please enter your email: ");
+        String email = s.nextLine();
+        while(!isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
+            System.out.print("Please enter a valid email: ");
+            email = s.nextLine();
+        }
         System.out.println("Verifying your email... ");
+        OTP_manager otp = new OTP_manager();
+        int code = OTP_manager.generateOTP(8);
+        otp.sendOTP(email, code);
         try {
             TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         System.out.println("Enter your OTP number sent to your email: ");
-        Scanner s = new Scanner(System.in);
-        String otp = s.nextLine();
+        int OTP = s.nextInt();
+        while(OTP != code){
+            System.out.print("Invalid OTP, try again: ");
+            OTP = s.nextInt();
+        }
         System.out.println("Your paying " + cart.getTotalPrice() + " using cash on delivery");
         System.out.println("Do you want to confirm?\n 1. Yes \n 2. No");
-        String confirm = s.nextLine();
-        confirm = confirm.toLowerCase();
-        if(confirm.equals("yes")){
+        Scanner s2 = new Scanner(System.in);
+        int confirm = s2.nextInt();
+        if(confirm == 1){
             System.out.println("Order placed successfully!");
             order.setStatus(OrderStatus.Closed);
-        } else {
+        } else if(confirm == 2){
+            System.out.println("Order Cancelled");
             order.setStatus(OrderStatus.Cancelled);
             displayMainMenu();
         }
