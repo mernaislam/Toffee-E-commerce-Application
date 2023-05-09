@@ -1,4 +1,8 @@
 import System.SystemManager;
+import System.OTP_manager;
+import System.Administrator;
+import Items.Items;
+
 import java.io.*;
 
 public class Main {
@@ -6,8 +10,8 @@ public class Main {
         SystemManager system = new SystemManager();
 //        system.runAdminApp();
         system.runUserApp();
-    }
-}
+    
+
 
 
 
@@ -39,5 +43,15 @@ public class Main {
 //
 //        Items item11 = new Items("MrMalo", 30, 7, "Marshmallow", "Mr,Malo");
 //        item11.writeItemToFile();
-//        Items item12 = new Items("Marshzo", 30, 7, "Marshmallow", "Marshzone");
+////        Items item12 = new Items("Marshzo", 30, 7, "Marshmallow", "Marshzone");
+//
+//        system.runUserApp();
+
+        OTP_manager  otp = new OTP_manager();
+        int code = otp.generateOTP(4);
+        otp.sendOTP("nourmuhammad835@gmail.com", code );
+
+    }
+
+}
 

@@ -2,10 +2,12 @@ package System;
 
 import CustomerDetails.Customer;
 import ItemCollection.Catalog;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+
+
 
 public class SystemManager {
     private ArrayList<Customer> customers;
@@ -53,9 +55,7 @@ public class SystemManager {
             admin.displayMainMenu();
         };
     }
-    public String sendOTP(){
-        return "";
-    }
+
     public boolean closeOrder(){
         return false;
     }
