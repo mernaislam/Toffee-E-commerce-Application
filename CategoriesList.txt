@@ -1,4 +1,6 @@
 Chocolates:
+6		Kinder		28.9		6
+15		Bounty		35.0		8
 14		Kinder		40.0		70
 13		Twix		30.0		50
 11		Galaxy		25.0		60

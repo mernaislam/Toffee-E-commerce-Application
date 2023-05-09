@@ -162,6 +162,7 @@ public class Administrator {
                         item.setUnitType(Sealed);
                     }
                 }
+                item.writeItemToFile();
                 ArrayList<Category> categories;
                 catalog.addItem(item);
                 categories = catalog.getCategories();

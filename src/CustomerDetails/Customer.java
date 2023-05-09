@@ -1,5 +1,6 @@
 package CustomerDetails;
 import ItemCollection.Catalog;
+import ItemCollection.Category;
 import  OrderDetails.Order;
 import Items.Items;
 import ShoppingCart.Cart;
@@ -139,18 +140,56 @@ public class Customer {
 
     public void displayMainMenu(){
         Catalog catalog = new Catalog();
-        
+
+        Category cat = new Category();
+        BufferedReader read;
+        String strId = null;
+        String strPrice = null;
+        String strQuantity = null;
+        int intId = 1;
+        double doublePrice = 1.0;
+        int intQuantity = 1;
+        String line;
+        try {
+            read = new BufferedReader(new FileReader("Toffee-E-commerce-Application/ItemFullData.txt"));
+            while((line = read.readLine()) != null){
+                String[] words = line.split("\t\t");
+                strId = words[0];
+                String name = words[1];
+                strPrice = words[2];
+                strQuantity = words[3];
+                String category = words[4];
+                String brand = words[5];
+                intId = Integer.parseInt(strId);
+                doublePrice = Double.parseDouble(strPrice);
+                intQuantity = Integer.parseInt(strQuantity);
+                Items item = new Items(name, doublePrice, intQuantity, category, brand);
+                item.setId(intId);
+                catalog.addItem(item);
+//                if(cat.addCategory(category)){
+//                    Category newCat = new Category();
+//                    newCat.addItem(item, cat);
+//                    catalog.addCategory(newCat);
+//                } else {
+//                    cat.addItem(item, cat);
+//                }
+            }
+            read.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         Scanner s = new Scanner(System.in);
         System.out.println("1. View Catalog (All Items). \n2. View Catalog by Categories. \n3. checkout. \n4. Exit");
         System.out.println("Please enter your choice: ");
         int choice = s.nextInt();
         switch(choice){
             case 1: {
-                catalog.displayAllItems();
+                catalog.displayAllItems(catalog);
                 chooseItem();
             }
             case 2: {
-                catalog.displayByCategory();
+                catalog.displayByCategory(catalog);
                 chooseItemCategory();
             }
             case 3: {

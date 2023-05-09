@@ -23,25 +23,24 @@ public class Catalog {
         }
     }
 
-    public void displayByCategory(){
-        for (Category category: categories) {
-            int cnt = 1;
-            System.out.println("Category: " + category.getName());
-            System.out.println("Item\t\tPrice\t\tQuantity");
-//            for (Items item: category.getItems()){
-//                System.out.println(cnt + ". " + item + " " + item.getPrice() + " " + item.getQuantity());
-//                cnt++;
-//            }
+    public void displayByCategory(Catalog catalog){
+        System.out.println("ID\t\tItem\t\tPrice\t\tQuantity");
+//        ReadingFromFile read = new ReadingFromFile();
+//        read.display("CategoriesList");
+        for (Category cat: categories) {
+            System.out.println("Category: " + cat.getName());
+            for (Items item: cat.getItems()){
+                System.out.println( item.getId() + "\t\t" + item.getName() + "\t\t" + item.getPrice() + "\t\t" + item.getQuantity());
+            }
         }
+
     }
 
-    public void displayAllItems(){
+    public void displayAllItems(Catalog catalog){
         System.out.println("ID\t\tItem\t\tPrice\t\tQuantity");
-        ReadingFromFile read = new ReadingFromFile();
-        read.display("ItemList");
-//        for (Items item: items){
-//            System.out.println(item + " " + item.getPrice() + " " + item.getQuantity());
-//        }
+        for (Items item: catalog.items){
+            System.out.println(item.getId() + "\t\t" + item.getName() + "\t\t" + item.getPrice() + "\t\t" + item.getQuantity());
+        }
 
 
     }
@@ -54,8 +53,7 @@ public class Catalog {
         return items;
     }
 
-    public void addCategory(String name){
-        Category category= new Category(name);
+    public void addCategory(Category category){
         categories.add(category);
     }
 }

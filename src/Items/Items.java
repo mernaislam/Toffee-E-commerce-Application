@@ -47,8 +47,14 @@ public class Items {
             throw new RuntimeException(e);
         }
         this.id = newId;
+    }
+
+    public void writeItemToFile(){
+        String ItemFullData = id + "\t\t" + name + "\t\t" + price + "\t\t" + quantity + "\t\t" + category + "\t\t" + brand;
         String ItemData = id + "\t\t" + name + "\t\t" + price + "\t\t" + quantity;
+
         WritingToFile writeItem = new WritingToFile("ItemList", ItemData);
+        WritingToFile writeFullItem = new WritingToFile("ItemFullData", ItemFullData);
     }
 
 //    //Needed if we want to add this item to another category
@@ -102,4 +108,11 @@ public class Items {
     public int getId(){
         return id;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+
 }
