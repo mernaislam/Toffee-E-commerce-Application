@@ -32,7 +32,7 @@ public class Category {
         return name;
     }
 
-    public void addItem(Items item, Category category){
+    public void addItem(Items item){
         for (String name: names) {
             if(name.equals(category.getName())){
                 category.items.add(item);

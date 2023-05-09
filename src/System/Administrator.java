@@ -128,6 +128,7 @@ public class Administrator {
             case 1:
             {
                 register();
+                displayMainMenu();
             }
             case 2: {
                 String name;
@@ -170,32 +171,26 @@ public class Administrator {
                 ReadingFromFile read = new ReadingFromFile();
                 if(!read.isEmailExist("CategoriesList", category+":"))
                 {
+                    // add the category to the catalog
+                    //add the item to the category
                     WritingToFile write = new WritingToFile("CategoriesList", category +":");
                     WritingToFile writeItem = new WritingToFile("CategoriesList", ItemData);
                 }
                 else
                 {
+                    //loop on the categories in the catalog to get the category you want and add the item in it
+                    for(int i = 0; i < categories.size(); i++)
+                    {
+                        if(categories.get(i).getName() == category)
+                        {
+                            categories.get(i).addItem(item);
+                            break;
+                        }
+                    }
+                    }
                     read.addUpdatedFileContent("CategoriesList",ItemData, category+":");
                 }
-
-
-//                if (categories.isEmpty())
-//                {
-//                    catalog.addCategory(category);
-//                    categories.get(0).addItem(item);
-//
-//
-////                }
-//                else
-//                {
-//                    for (Category value : categories) {
-//                        if (Objects.equals(value.getName(), category)) {
-//                            value.addItem(item);
-//                            break;
-//                        }
-//                    }
-
-            }
+                displayMainMenu();
             case 4:
             {
                 System.out.println("Thank you for using Toffee!");

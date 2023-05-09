@@ -4,6 +4,7 @@ import FileIO.WritingToFile;
 import ItemCollection.Catalog;
 import ItemCollection.Category;
 import System.SystemManager;
+import System.OTP_manager;
 import System.Administrator;
 import Items.Items;
 
@@ -38,17 +39,21 @@ public class Main {
 //        Items item8 = new Items("Flutes", 30, 7,"Chocolates", "Galaxy");
 //        Items item89 = new Items("M&&M", 70, 7, "Chocolates", "M&M");
 //
-        Items item9 = new Items("Haribo", 60, 7, "Marshmallow", "Chamallows");
-        item9.writeItemToFile();
+//        Items item9 = new Items("Haribo", 60, 7, "Marshmallow", "Chamallows");
+//        item9.writeItemToFile();
+//
+//        Items item10 = new Items("Bebeto", 30, 7, "Marshmallow", "Bebeto");
+//        item10.writeItemToFile();
+//
+//        Items item11 = new Items("MrMalo", 30, 7, "Marshmallow", "Mr,Malo");
+//        item11.writeItemToFile();
+////        Items item12 = new Items("Marshzo", 30, 7, "Marshmallow", "Marshzone");
+//
+//        system.runUserApp();
 
-        Items item10 = new Items("Bebeto", 30, 7, "Marshmallow", "Bebeto");
-        item10.writeItemToFile();
-
-        Items item11 = new Items("MrMalo", 30, 7, "Marshmallow", "Mr,Malo");
-        item11.writeItemToFile();
-//        Items item12 = new Items("Marshzo", 30, 7, "Marshmallow", "Marshzone");
-
-        system.runUserApp();
+        OTP_manager  otp = new OTP_manager();
+        int code = otp.generateOTP(4);
+        otp.sendOTP("nourmuhammad835@gmail.com", code );
     }
 
 
