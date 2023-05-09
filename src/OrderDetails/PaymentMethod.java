@@ -54,7 +54,7 @@ class CoD extends PaymentMethod{
         }
         for (int i = 0;i < items.length;i++){
             double totalPrice = items[i].getPrice();
-            c.setTotalPrice(totalPrice);
+            c.setTotalPrice();
         }
         Order order = new Order("1012",c);
         CoD paymentMethod = new CoD();

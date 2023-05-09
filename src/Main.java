@@ -1,23 +1,19 @@
-import CustomerDetails.Customer;
-import FileIO.ReadingFromFile;
-import FileIO.WritingToFile;
-import ItemCollection.Catalog;
-import ItemCollection.Category;
 import System.SystemManager;
 import System.OTP_manager;
 import System.Administrator;
 import Items.Items;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import static Items.UnitType.Loose;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         SystemManager system = new SystemManager();
 //        system.runAdminApp();
+        system.runUserApp();
+    
+
+
+
 
 //        Items item1 = new Items("Twix", 30, 50 ,"Chocolates", "Twix");
 //        item1.writeItemToFile();
@@ -54,8 +50,8 @@ public class Main {
         OTP_manager  otp = new OTP_manager();
         int code = otp.generateOTP(4);
         otp.sendOTP("nourmuhammad835@gmail.com", code );
-    }
 
+    }
 
 }
 

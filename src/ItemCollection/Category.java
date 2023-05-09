@@ -31,13 +31,17 @@ public class Category {
     public String getName() {
         return name;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public void addItem(Items item){
-        for (String name: names) {
-            if(name.equals(category.getName())){
-                category.items.add(item);
-            }
-        }
+//        for (String name: names) {
+//            if(name.equals(getName())){
+//            }
+//        }
+        items.add(item);
     }
 
     public void deleteItem(Items item){

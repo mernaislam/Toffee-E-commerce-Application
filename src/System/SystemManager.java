@@ -27,7 +27,7 @@ public class SystemManager {
             customer.register();
         } else {
             if(customer.login()){
-                System.out.println("Welcome to Toffee Application");
+                System.out.println("\nWelcome to Toffee Application");
                 customer.displayMainMenu();
             }
         }
