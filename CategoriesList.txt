@@ -1,8 +1,13 @@
 Chocolates:
+16		Nour		5.0		3
+13		Flutes		30.0		7
 6		Kinder		28.9		6
 15		Bounty		35.0		8
 14		Kinder		40.0		70
 13		Twix		30.0		50
 11		Galaxy		25.0		60
 Sweets:
+16		Candy		79.0		90
 12		JellyCola		10.0		90
+Cadbury:
+14		Bubbly		19.0		50

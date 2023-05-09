@@ -8,9 +8,7 @@ public class Cart {
     private Double totalPrice = 0.0;
     private ArrayList<Items> items = new ArrayList<Items>();
     private HashMap<Items,Integer> map = new HashMap<Items, Integer>();
-    public Cart(){
-
-    }
+    public Cart(){}
     public void addItem(Items item){
         if(!items.contains(item))
             items.add(item);
@@ -37,5 +35,10 @@ public class Cart {
         map.merge(item, 1, Integer::sum);
         // if key do not exist, put 1 as value
         // otherwise sum 1 to the value linked to key
+    }
+    public void clearCart(){
+        items.clear();
+        map.clear();
+        totalPrice = 0.0;
     }
 }

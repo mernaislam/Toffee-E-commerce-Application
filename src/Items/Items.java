@@ -115,4 +115,7 @@ public class Items {
         return name;
     }
 
+    public String getBrand() {
+        return brand;
+    }
 }

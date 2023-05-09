@@ -3,6 +3,7 @@ import ItemCollection.Catalog;
 import ItemCollection.Category;
 import  OrderDetails.Order;
 import Items.Items;
+import OrderDetails.OrderStatus;
 import ShoppingCart.Cart;
 import FileIO.*;
 
@@ -74,11 +75,11 @@ public class Customer {
 
         // verify username does not exists to prevent duplicates
         ReadingFromFile read = new ReadingFromFile();
-        while(read.isEmailExist("CustomerDetails", username) || isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
+        while(read.isEmailExist("CustomerDetails", username) || !isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
             if(read.isEmailExist("CustomerDetails", username)) {
                 System.out.print("Username already exists, please enter another username: ");
                 username = s.nextLine();
-            } else if(isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
+            } else if(!isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
                 System.out.print("Invalid format for username (ex: alex_tom): ");
                 username = s.nextLine();
             } else {
@@ -138,7 +139,7 @@ public class Customer {
         login(username, pass1);
     }
 
-    public void displayMainMenu(){
+    public void displayMainMenu() throws IOException {
         Catalog catalog = new Catalog();
 
         Category cat = new Category();
@@ -238,18 +239,29 @@ public class Customer {
         }
     }
 
-    public void chooseItem(Catalog catalog){
+    public void chooseItem(Catalog catalog) throws IOException {
         Scanner s = new Scanner(System.in);
         System.out.print("Enter Item number: ");
         int itemChoice = s.nextInt();
-        System.out.print("Enter Item Quantity: ");
-        int quantity = s.nextInt();
         boolean isfound = false;
         for (Items item: catalog.getItems()) {
             if(item.getId() == itemChoice){
+                System.out.print("Enter Item Quantity: ");
+                int quantity = s.nextInt();
+                while (quantity > item.getQuantity() || quantity > 50){
+                    System.out.println("Invalid Quantity, maximum quantity available is: " + item.getQuantity() + " (Note: should be less than 50)");
+                    System.out.print("Re-enter Item Quantity: ");
+                    quantity = s.nextInt();
+                }
                 System.out.println("Item: " + item.getName() + " with price " + item.getPrice() + " L.E is added to cart Successfully!\n");
                 isfound = true;
                 addToCart(item, quantity);
+                item.setQuantity(item.getQuantity() - quantity);
+                WritingToFile write = new WritingToFile();
+                String ItemFullData = item.getId() + "\t\t" + item.getName() + "\t\t" + item.getPrice() + "\t\t" + item.getQuantity() + "\t\t" + item.getCategory() + "\t\t" + item.getBrand();
+                String ItemData = item.getId() + "\t\t" + item.getName() + "\t\t" + item.getPrice() + "\t\t" + item.getQuantity();
+                write.updateItemQuantity("ItemList", ItemData, item.getId());
+                write.updateItemQuantity("ItemFullData", ItemFullData, item.getId());
                 break;
             }
         }
@@ -268,15 +280,9 @@ public class Customer {
         }
     }
 
-    public void checkout(Catalog catalog){
-        boolean isEmpty = true;
-        System.out.println("\nYour Cart:");
-        System.out.println("\tName\tPrice\tQuantity");
-        for (Items item: cart.getItems()) {
-            isEmpty = false;
-            System.out.println("\t" + item.getName() + "\t" + item.getPrice() + "\t" + cart.getMapValue(item));
-        }
-        if(isEmpty){
+    public void checkout(Catalog catalog) throws IOException {
+        Order order = new Order("1", cart);
+        if(order.displayOrderDetails()){
             System.out.println("\tNothing in cart for checkout! ");
             System.out.println("Returning to main menu... ");
             try {
@@ -292,7 +298,7 @@ public class Customer {
             System.out.println("1. Proceed to payment. \n2. Add another item. \n3.Return to main menu");
             int choice = s.nextInt();
             if(choice == 1){
-                pay();
+                pay(order);
             } else if(choice == 2){
                 chooseItem(catalog);
             } else if(choice == 3){
@@ -301,7 +307,7 @@ public class Customer {
         }
     }
 
-    public void pay(){
+    public void pay(Order order) throws IOException {
         System.out.println("Please enter your email: ");
         System.out.println("Verifying your email... ");
         try {
@@ -318,10 +324,11 @@ public class Customer {
         confirm = confirm.toLowerCase();
         if(confirm.equals("yes")){
             System.out.println("Order placed successfully!");
+            order.setStatus(OrderStatus.Closed);
         } else {
+            order.setStatus(OrderStatus.Cancelled);
             displayMainMenu();
         }
-
     }
 
     public static boolean isValid(String input, String regexData)

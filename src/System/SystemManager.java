@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class SystemManager {
     private ArrayList<Customer> customers;
     private ArrayList<Administrator> administrators;
-    public void runUserApp(){
+    public void runUserApp() throws IOException {
         Customer customer = new Customer();
         Scanner sc = new Scanner(System.in);
         System.out.println("Toffee Application");

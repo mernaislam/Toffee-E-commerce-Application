@@ -83,11 +83,11 @@ public class Administrator {
         System.out.print("Please enter the username: ");
         String username  = sc.nextLine();
         ReadingFromFile read = new ReadingFromFile();
-        while(read.isEmailExist("AdminDetails", username) || isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
+        while(read.isEmailExist("AdminDetails", username) || !isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
             if(read.isEmailExist("AdminDetails", username)) {
                 System.out.print("Username already exists, please enter another username: ");
                 username = sc.nextLine();
-            } else if(isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
+            } else if(!isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
                 System.out.print("Invalid format for username (ex: alex_tom): ");
                 username = sc.nextLine();
             } else {
@@ -169,6 +169,7 @@ public class Administrator {
                 categories = catalog.getCategories();
                 String ItemData = item.getId() + "\t\t" + name + "\t\t" + price + "\t\t" + quantity;
                 ReadingFromFile read = new ReadingFromFile();
+                WritingToFile writer = new WritingToFile();
                 if(!read.isEmailExist("CategoriesList", category+":"))
                 {
                     // add the category to the catalog
@@ -188,7 +189,7 @@ public class Administrator {
                         }
                     }
                     }
-                    read.addUpdatedFileContent("CategoriesList",ItemData, category+":");
+                    writer.addUpdatedFileContent("CategoriesList",ItemData, category+":");
                 }
                 displayMainMenu();
             case 4:
