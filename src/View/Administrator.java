@@ -1,7 +1,6 @@
-package System;
+package View;
 
 import CustomerDetails.Account;
-import CustomerDetails.Customer;
 import FileIO.ReadingFromFile;
 import FileIO.WritingToFile;
 import ItemCollection.Catalog;
@@ -9,13 +8,10 @@ import ItemCollection.Category;
 import Items.*;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 import static CustomerDetails.Customer.isValid;
 import static Items.UnitType.Loose;
@@ -80,8 +76,8 @@ public class Administrator {
         {
             throw new RuntimeException(e);
         }
-        Account acc = new Account(username,null,password,null);
-        this.setAccount(acc);
+//        Account acc = new Account(username,null,password,null);
+//        this.setAccount(acc);
         return true;
     }
     public void register() throws IOException {
@@ -122,6 +118,8 @@ public class Administrator {
         WritingToFile writeUsername = new WritingToFile("AdminDetails", username);
         WritingToFile writePassword = new WritingToFile("AdminDetails", pass2);
         System.out.println("This admin is successfully added to the system.\n");
+        Account acc = new Account(username, password);
+        this.setAccount(acc);
         displayMainMenu();
         }
 

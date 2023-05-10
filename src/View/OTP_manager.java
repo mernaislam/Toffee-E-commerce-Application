@@ -1,4 +1,4 @@
-package System;
+package View;
 import java.util.Random;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

@@ -9,7 +9,6 @@ public class Category {
     private String name;
     private double discount;
 
-    public Category(){}
     public boolean addCategory(String categoryName){
         for (String name: names) {
             if(name.equals(categoryName)){
@@ -37,10 +36,6 @@ public class Category {
 
 
     public void addItem(Items item){
-//        for (String name: names) {
-//            if(name.equals(getName())){
-//            }
-//        }
         items.add(item);
     }
 

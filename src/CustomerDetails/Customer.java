@@ -1,12 +1,12 @@
 package CustomerDetails;
 import ItemCollection.Catalog;
 import ItemCollection.Category;
-import  OrderDetails.Order;
 import Items.Items;
-import OrderDetails.OrderStatus;
+import OrderDetails.Order;
+import OrderDetails.*;
 import ShoppingCart.Cart;
-import FileIO.*;
-import System.OTP_manager;
+import FileIO.ReadingFromFile;
+import FileIO.WritingToFile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,9 +19,9 @@ import java.util.regex.Pattern;
 
 public class Customer {
     private Account account;
-    private int id;
+    private static int id = 0;
     private Cart cart = new Cart();
-    private ArrayList<Order> orders = new ArrayList<Order>();
+    private ArrayList<Order> orders = new ArrayList<>();
 
     public boolean login(){
         Scanner s = new Scanner(System.in);
@@ -139,6 +139,7 @@ public class Customer {
         Address add = new Address(gov, street, district, buildingNo, floorNo, flatNo);
         Account acc = new Account(username, email, pass1, add);
         account = acc;
+        id = id + 1;
         System.out.println("Account is created successfully!\n");
         // Writing data to file
         WritingToFile writeUsername = new WritingToFile("CustomerDetails", username);
@@ -148,13 +149,11 @@ public class Customer {
 
     public void displayMainMenu() throws IOException {
         Catalog catalog = new Catalog();
-
-        Category cat = new Category();
         BufferedReader read;
         String strId;
         String strPrice;
         String strQuantity;
-        int intId = 1;
+        int intId;
         double doublePrice;
         int intQuantity;
         String line;
@@ -179,7 +178,7 @@ public class Customer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ArrayList<String> categories = new ArrayList<String>();
+        ArrayList<String> categories = new ArrayList<>();
         for (Items items: catalog.getItems()) {
             if(!categories.contains(items.getCategory())){
                 categories.add(items.getCategory());
@@ -201,7 +200,7 @@ public class Customer {
         int choice = s.nextInt();
         switch(choice){
             case 1: {
-                catalog.displayAllItems(catalog);
+                catalog.displayAllItems();
                 System.out.println("\nSpecify your choice: ");
                 System.out.println("1. choose Item to add to cart. \n2. Return to main menu.");
                 choice = s.nextInt();
@@ -213,7 +212,7 @@ public class Customer {
                 return;
             }
             case 2: {
-                catalog.displayByCategory(catalog);
+                catalog.displayByCategory();
                 System.out.println("\nSpecify your choice: ");
                 System.out.println("1. choose Item to add to cart. \n2. Return to main menu.");
                 choice = s.nextInt();
@@ -250,7 +249,7 @@ public class Customer {
         Scanner s = new Scanner(System.in);
         System.out.print("Enter Item number: ");
         int itemChoice = s.nextInt();
-        boolean isfound = false;
+        boolean isFound = false;
         for (Items item: catalog.getItems()) {
             if(item.getId() == itemChoice){
                 System.out.print("Enter Item Quantity: ");
@@ -261,7 +260,7 @@ public class Customer {
                     quantity = s.nextInt();
                 }
                 System.out.println("Item: " + item.getName() + " with price " + item.getPrice() + " L.E is added to cart Successfully!\n");
-                isfound = true;
+                isFound = true;
                 addToCart(item, quantity);
                 item.setQuantity(item.getQuantity() - quantity);
                 WritingToFile write = new WritingToFile();
@@ -272,7 +271,7 @@ public class Customer {
                 break;
             }
         }
-        if(!isfound){
+        if(!isFound){
             System.out.println("Invalid Item number, please try again!");
             chooseItem(catalog);
         }
@@ -305,7 +304,8 @@ public class Customer {
             System.out.println("1. Proceed to payment. \n2. Add another item. \n3.Return to main menu");
             int choice = s.nextInt();
             if(choice == 1){
-                pay(order);
+                PaymentMethod paymentMethod = new CoD();
+                paymentMethod.pay(order, this);
             } else if(choice == 2){
                 chooseItem(catalog);
             } else if(choice == 3){
@@ -314,47 +314,17 @@ public class Customer {
         }
     }
 
-    public void pay(Order order) throws IOException {
-        Scanner s = new Scanner(System.in);
-        System.out.println("Please enter your email: ");
-        String email = s.nextLine();
-        while(!isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
-            System.out.print("Please enter a valid email: ");
-            email = s.nextLine();
-        }
-        System.out.println("Verifying your email... ");
-        OTP_manager otp = new OTP_manager();
-        int code = OTP_manager.generateOTP(8);
-        otp.sendOTP(email, code);
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("Enter your OTP number sent to your email: ");
-        int OTP = s.nextInt();
-        while(OTP != code){
-            System.out.print("Invalid OTP, try again: ");
-            OTP = s.nextInt();
-        }
-        System.out.println("Your paying " + cart.getTotalPrice() + " using cash on delivery");
-        System.out.println("Do you want to confirm?\n 1. Yes \n 2. No");
-        Scanner s2 = new Scanner(System.in);
-        int confirm = s2.nextInt();
-        if(confirm == 1){
-            System.out.println("Order placed successfully!");
-            order.setStatus(OrderStatus.Closed);
-        } else if(confirm == 2){
-            System.out.println("Order Cancelled");
-            order.setStatus(OrderStatus.Cancelled);
-            displayMainMenu();
-        }
+    public void addOrder(Order order){
+    orders.add(order);
+    }
+
+    public Cart getCart() {
+        return cart;
     }
 
     public static boolean isValid(String input, String regexData)
     {
-        String regex = regexData;
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(regexData);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }

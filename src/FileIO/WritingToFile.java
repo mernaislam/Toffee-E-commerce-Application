@@ -18,6 +18,22 @@ public class WritingToFile {
         }
     }
 
+    public void clearFile(String fileName)
+    {
+        try{
+            FileWriter fw = new FileWriter("Toffee-E-commerce-Application/" + fileName + ".txt", false);
+            PrintWriter pw = new PrintWriter(fw, false);
+            pw.flush();
+            pw.close();
+            fw.close();
+        }
+        catch(Exception exception)
+        {
+            System.out.println("Exception have been caught");
+        }
+
+    }
+
     public void addUpdatedFileContent(String fileName,String lineContent, String categoryName) throws IOException {
         ReadingFromFile read = new ReadingFromFile();
         int newLine = read.getLineNumber(fileName, categoryName);
@@ -41,7 +57,7 @@ public class WritingToFile {
         else {
             content.add(newLine, lineContent);
         }
-        read.clearFile(fileName);
+        clearFile(fileName);
         BufferedWriter writer = new BufferedWriter(new FileWriter("Toffee-E-commerce-Application/" + fileName + ".txt", true));
         for (String Line : content) {
             writer.write(Line + "\n");
@@ -51,7 +67,6 @@ public class WritingToFile {
 
     public void updateItemQuantity(String fileName, String toAdd, int search) throws IOException {
         String value = Integer.toString(search);
-        ReadingFromFile reader = new ReadingFromFile();
         ArrayList<String> content = new ArrayList<>();
         BufferedReader read;
         try {
@@ -72,7 +87,7 @@ public class WritingToFile {
         catch(IOException e) {
             throw new RuntimeException(e);
         }
-        reader.clearFile(fileName);
+        clearFile(fileName);
         BufferedWriter writer = new BufferedWriter(new FileWriter("Toffee-E-commerce-Application/" + fileName + ".txt", true));
         for (String Line : content) {
             writer.write(Line + "\n");

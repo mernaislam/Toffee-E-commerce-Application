@@ -1,12 +1,7 @@
 package ItemCollection;
 
-import CustomerDetails.Customer;
-import FileIO.ReadingFromFile;
 import Items.Items;
-
 import java.util.ArrayList;
-import java.util.Scanner;
-
 
 public class Catalog {
     private ArrayList<Items> items = new ArrayList<Items>();
@@ -23,7 +18,7 @@ public class Catalog {
         }
     }
 
-    public void displayByCategory(Catalog catalog){
+    public void displayByCategory(){
         for (Category cat: categories) {
             System.out.println("Category: " + cat.getName());
             System.out.println("ID\t\tItem\t\tPrice\t\tQuantity");
@@ -34,9 +29,9 @@ public class Catalog {
         }
     }
 
-    public void displayAllItems(Catalog catalog){
+    public void displayAllItems(){
         System.out.println("ID\t\tItem\t\tPrice\t\tQuantity");
-        for (Items item: catalog.items){
+        for (Items item: items){
             System.out.println(item.getId() + "\t\t" + item.getName() + "\t\t" + item.getPrice() + "\t\t" + item.getQuantity());
         }
     }

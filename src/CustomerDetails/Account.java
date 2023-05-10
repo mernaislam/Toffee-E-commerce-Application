@@ -13,6 +13,10 @@ public class Account {
         this.password = password;
         addresses.add(address);
     }
+    public Account(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
     public void addNewAddress(Address address){
         addresses.add(address);
     }

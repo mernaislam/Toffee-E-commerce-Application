@@ -2,12 +2,9 @@ package Items;
 import FileIO.WritingToFile;
 import ItemCollection.Catalog;
 import ItemCollection.Category;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Items {
     private int id;

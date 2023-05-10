@@ -1,7 +1,6 @@
 package FileIO;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class ReadingFromFile {
     BufferedReader reader;
@@ -55,21 +54,6 @@ public class ReadingFromFile {
             cnt = 0;
         }
         return cnt;
-    }
-    public void clearFile(String fileName)
-    {
-        try{
-            FileWriter fw = new FileWriter("Toffee-E-commerce-Application/" + fileName + ".txt", false);
-            PrintWriter pw = new PrintWriter(fw, false);
-            pw.flush();
-            pw.close();
-            fw.close();
-        }
-        catch(Exception exception)
-        {
-            System.out.println("Exception have been caught");
-        }
-
     }
 
 }
