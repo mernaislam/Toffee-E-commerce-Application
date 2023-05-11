@@ -49,17 +49,6 @@ public class CollectionManager {
         }
     }
 
-//    public boolean addCategory(String categoryName){
-//        for (String name: category.getNames()) {
-//            if(name.equals(categoryName)){
-//                return false;
-//            }
-//        }
-//        category.getNames().add(categoryName);
-//        category.setName(categoryName);
-//        return true;
-//    }
-
     public void addCategoryToCatalog(Category category){
         catalog.getCategories().add(category);
     }
