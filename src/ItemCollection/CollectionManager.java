@@ -1,6 +1,6 @@
 package ItemCollection;
 
-import FileIO.WritingToFile;
+import DataManager.WritingToFile;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,6 @@ public class CollectionManager {
     public void addItemCategory(Items item, Category category){
         category.getItems().add(item);
     }
-
     public void deleteItemCategory(Items item, Category category){
         for (int i = 0; i < category.getItems().size(); i++) {
             if(category.getItems().get(i) == item){

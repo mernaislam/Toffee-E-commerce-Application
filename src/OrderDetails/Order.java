@@ -30,11 +30,11 @@ public class Order {
         this.shippingAddress = shippingAddress;
     }
 
-    public void setStatus(OrderStatus status) {
-        CartManager cart = new CartManager();
+    public void setStatus(OrderStatus status, Cart cart) {
+        CartManager cartManager = new CartManager();
         this.status = status;
         if(status.equals(OrderStatus.Cancelled)){
-            cart.clearCart();
+            cartManager.clearCart(cart);
         }
     }
 

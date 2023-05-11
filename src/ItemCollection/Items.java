@@ -1,5 +1,4 @@
 package ItemCollection;
-import FileIO.WritingToFile;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

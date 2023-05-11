@@ -2,10 +2,11 @@ package AdminDetails;
 
 import CustomerDetails.Account;
 import CustomerDetails.CustomerManager;
-import FileIO.ReadingFromFile;
-import FileIO.WritingToFile;
+import DataManager.ReadingFromFile;
+import DataManager.WritingToFile;
 import ItemCollection.Catalog;
 import ItemCollection.Category;
+import ItemCollection.CollectionManager;
 import ItemCollection.Items;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +18,7 @@ import static ItemCollection.UnitType.Sealed;
 
 public class AdminManager {
     Administrator admin = new Administrator();
-    public boolean login() {
+    public boolean login() throws IOException {
         Scanner s = new Scanner((System.in));
         System.out.println("Please enter your credentials.");
         System.out.print("Username: ");
@@ -27,7 +28,7 @@ public class AdminManager {
         return login(username, password);
     }
 
-    public boolean login(String username, String password){
+    public boolean login(String username, String password) throws IOException {
         BufferedReader reader;
         try{
             reader = new BufferedReader(new FileReader("Toffee-E-commerce-Application/AdminDetails.txt"));
@@ -41,6 +42,7 @@ public class AdminManager {
                     if(line.equals(password))
                     {
                         System.out.println("Successfully logged in");
+                        displayMainMenu();
                         return true;
                     }
                     else
@@ -57,6 +59,10 @@ public class AdminManager {
                             }
                             cnt--;
                         }
+                        if(cnt == 0){
+                            System.out.println("Can't open the app: ");
+                            return false;
+                        }
                     }
                 }
             }
@@ -70,23 +76,21 @@ public class AdminManager {
         {
             throw new RuntimeException(e);
         }
-//        Account acc = new Account(username,null,password,null);
-//        this.setAccount(acc);
         return true;
     }
 
     public void register() throws IOException {
-        CustomerManager customer = new CustomerManager();
+        CustomerManager customerManager = new CustomerManager();
         String password;
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter the username: ");
         String username  = sc.nextLine();
         ReadingFromFile read = new ReadingFromFile();
-        while(read.isEmailExist("AdminDetails", username) || !customer.isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
+        while(read.isEmailExist("AdminDetails", username) || !CustomerManager.isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
             if(read.isEmailExist("AdminDetails", username)) {
                 System.out.print("Username already exists, please enter another username: ");
                 username = sc.nextLine();
-            } else if(!customer.isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
+            } else if(!CustomerManager.isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
                 System.out.print("Invalid format for username (ex: alex_tom): ");
                 username = sc.nextLine();
             } else {
@@ -97,7 +101,7 @@ public class AdminManager {
         System.out.print("Please enter the password: ");
         password = sc.nextLine();
         // regex strong password
-        while(!customer.isValid(password, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$")){
+        while(!CustomerManager.isValid(password, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$")){
             System.out.print("Please enter a strong password: ");
             password = sc.nextLine();
         }
@@ -116,103 +120,96 @@ public class AdminManager {
         System.out.println("This admin is successfully added to the system.\n");
         Account acc = new Account(username, password);
         admin.setAccount(acc);
-//        displayMainMenu();
+        displayMainMenu();
     }
 
-//    public void displayMainMenu() throws IOException {
-//        Catalog catalog = new Catalog();
-//        Scanner s = new Scanner(System.in);
-//        System.out.println("1. Add New Admin to The System. \n2. Add Item. \n3. Exit");
-//        System.out.println("Please enter your choice: ");
-//        int choice = s.nextInt();
-//        switch(choice){
-//            case 1:
-//            {
-//                register();
-//                displayMainMenu();
-//            }
-//            case 2: {
-//                String name;
-//                double price;
-//                int quantity;
-//                String category;
-//                String brand;
-//                Scanner input = new Scanner(System.in);
-//                Scanner input2 = new Scanner(System.in);
-//                System.out.print("Enter the item name: ");
-//                name = input.nextLine();
-//                System.out.print("Enter the item price: ");
-//                price = input.nextDouble();
-//                System.out.print("Enter the item quantity: ");
-//                quantity = input.nextInt();
-//                System.out.print("Enter the item's category: ");
-//                category = input2.nextLine();
-//                System.out.print("Enter the item's brand: ");
-//                brand = input2.nextLine();
-//                Items item = new Items(name, price, quantity, category, brand);
-//                System.out.println("Enter the item's unit type:");
-//                System.out.println("1. Loose");
-//                System.out.println("2. Sealed");
-//                choice = s.nextInt();
-//                switch (choice) {
-//                    case 1:
-//                    {
-//                        item.setUnitType(Loose);
-//                    }
-//                    case 2:
-//                    {
-//                        item.setUnitType(Sealed);
-//                    }
-//                }
-//                writeItemToFile(item);
-//                ArrayList<Category> categories;
-//                catalog.addItem(item);
-//                categories = catalog.getCategories();
-//                String ItemData = item.getId() + "\t\t" + name + "\t\t" + price + "\t\t" + quantity;
-//                ReadingFromFile read = new ReadingFromFile();
-//                WritingToFile writer = new WritingToFile();
-//                if(!read.isEmailExist("CategoriesList", category+":"))
-//                {
-//                    // add the category to the catalog
-//                    // add the item to the category
-//                    WritingToFile write = new WritingToFile("CategoriesList", category +":");
-//                    WritingToFile writeItem = new WritingToFile("CategoriesList", ItemData);
-//                }
-//                else
-//                {
-//                    //loop on the categories in the catalog to get the category you want and add the item in it
-//                    for(int i = 0; i < categories.size(); i++)
-//                    {
-//                        if(categories.get(i).getName().equals(category))
-//                        {
-//                            categories.get(i).addItem(item);
-//                            break;
-//                        }
-//                    }
-//                }
-//                writer.addUpdatedFileContent("CategoriesList",ItemData, category+":");
-//            }
-//            displayMainMenu();
-//            case 3:
-//            {
-//                System.out.println("Thank you for using Toffee!");
-//                return;
-//            }
-//            default:
-//            {
-//                System.out.println("Invalid Choice try again:");
-//                displayMainMenu();
-//            }
-//        }
-//    }
+    public void displayMainMenu() throws IOException {
+        CollectionManager collectionManager = new CollectionManager();
+        Scanner s = new Scanner(System.in);
+        System.out.println("1. Add New Admin to The System. \n2. Add Item. \n3. Exit");
+        System.out.println("Please enter your choice: ");
+        int choice = s.nextInt();
+        switch (choice) {
+            case 1 -> {
+                register();
+                displayMainMenu();
+                return;
+            }
+            case 2 -> {
+                {
+                    String name;
+                    double price;
+                    int quantity;
+                    String category;
+                    String brand;
+                    Scanner input = new Scanner(System.in);
+                    Scanner input2 = new Scanner(System.in);
+                    System.out.print("Enter the item name: ");
+                    name = input.nextLine();
+                    System.out.print("Enter the item price: ");
+                    price = input.nextDouble();
+                    System.out.print("Enter the item quantity: ");
+                    quantity = input.nextInt();
+                    System.out.print("Enter the item's category: ");
+                    category = input2.nextLine();
+                    System.out.print("Enter the item's brand: ");
+                    brand = input2.nextLine();
+                    Items item = new Items(name, price, quantity, category, brand);
+                    System.out.println("Enter the item's unit type:");
+                    System.out.println("1. Loose");
+                    System.out.println("2. Sealed");
+                    choice = s.nextInt();
+                    switch (choice) {
+                        case 1: {
+                            item.setUnitType(Loose);
+                            return;
+                        }
+                        case 2: {
+                            item.setUnitType(Sealed);
+                            return;
+                        }
+                    }
+                    collectionManager.writeItemToFile(item);
+                    ArrayList<Category> categories;
+                    collectionManager.addItemCatalog(item);
+                    categories = collectionManager.getCatalog().getCategories();
+                    String ItemData = item.getId() + "\t\t" + name + "\t\t" + price + "\t\t" + quantity;
+                    ReadingFromFile read = new ReadingFromFile();
+                    WritingToFile writer = new WritingToFile();
+                    if (!read.isEmailExist("CategoriesList", category + ":")) {
+                        // add the category to the catalog
+                        // add the item to the category
+                        WritingToFile write = new WritingToFile("CategoriesList", category + ":");
+                        WritingToFile writeItem = new WritingToFile("CategoriesList", ItemData);
+                    } else {
+
+                        //loop on the categories in the catalog to get the category you want and add the item in it
+                        for (int i = 0; i < categories.size(); i++) {
+                            if (categories.get(i).getName().equals(category)) {
+                                collectionManager.addItemCategory(item, categories.get(i));
+                                break;
+                            }
+                        }
+                    }
+                    writer.addUpdatedFileContent("CategoriesList", ItemData, category + ":");
+                }
+                displayMainMenu();
+            }
+            case 3 -> {
+                System.out.println("Thank you for using Toffee!");
+            }
+            default -> {
+                System.out.println("Invalid Choice try again:");
+                displayMainMenu();
+            }
+        }
+    }
 
     public void runAdminApp() throws IOException {
-        Administrator admin = new Administrator();
-        Scanner sc = new Scanner(System.in);
         System.out.println("Toffee Application");
         if(login()){
-//            displayMainMenu();
-        };
+            displayMainMenu();
+        }
     }
 
 }

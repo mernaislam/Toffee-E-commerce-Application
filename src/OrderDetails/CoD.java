@@ -17,8 +17,7 @@ public class CoD extends PaymentMethod{
         return email;
     }
 
-    public void pay(Order order, CustomerManager customer) throws IOException {
-        CustomerManager customerManager = new CustomerManager();
+    public void pay(Order order, CustomerManager customerManager) throws IOException {
         Scanner s = new Scanner(System.in);
         System.out.println("Please enter your email: ");
         String email = s.nextLine();
@@ -42,18 +41,23 @@ public class CoD extends PaymentMethod{
             System.out.print("Invalid OTP, try again: ");
             OTP = s.nextInt();
         }
-//        System.out.println("Your paying " + customer.getCart().getTotalPrice() + " using cash on delivery");
+        System.out.println("Your paying " + customerManager.getCustomer().getCart().getTotalPrice() + " using cash on delivery");
         System.out.println("Do you want to confirm?\n 1. Yes \n 2. No");
         Scanner s2 = new Scanner(System.in);
         int confirm = s2.nextInt();
+        while(confirm != 1 && confirm != 2){
+            System.out.print("Invalid Choice, try again: ");
+            confirm = s.nextInt();
+        }
         if(confirm == 1){
             System.out.println("Order placed successfully!");
-//            customer.addOrder(order);
-            order.setStatus(OrderStatus.Closed);
-        } else if(confirm == 2){
+            customerManager.addOrder(order);
+            order.setStatus(OrderStatus.Closed, customerManager.getCustomer().getCart());
+        } else {
             System.out.println("Order Cancelled");
-            order.setStatus(OrderStatus.Cancelled);
-//            customer.displayMainMenu();
+            order.setStatus(OrderStatus.Cancelled, customerManager.getCustomer().getCart());
+            customerManager.displayMainMenu();
         }
+        System.out.println("Thank you!");
     }
 }

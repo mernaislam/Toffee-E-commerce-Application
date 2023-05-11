@@ -11,7 +11,15 @@ public class CartManager {
         // otherwise sum 1 to the value linked to key
     }
 
-    public void clearCart(){
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public void clearCart(Cart cart){
         cart.getItems().clear();
         cart.getMap().clear();
         cart.setTotalPrice(0.0);
