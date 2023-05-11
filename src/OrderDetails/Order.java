@@ -1,8 +1,9 @@
 package OrderDetails;
-import CustomerDetails.Account;
 import CustomerDetails.Address;
-import Items.Items;
+import ItemCollection.Items;
 import ShoppingCart.Cart;
+import ShoppingCart.CartManager;
+
 import java.util.Date;
 
 public class Order {
@@ -13,12 +14,14 @@ public class Order {
     private Cart cart = new Cart();
     private PaymentMethod payment;
     private OrderStatus status;
+
     public Order(String id,Cart cart){
         this.id = id;
         this.cart = cart;
         this.totalPrice = cart.getTotalPrice();
         this.status = OrderStatus.Open;
     }
+
     public void setDate(Date date) {
         this.date = date;
     }
@@ -28,6 +31,7 @@ public class Order {
     }
 
     public void setStatus(OrderStatus status) {
+        CartManager cart = new CartManager();
         this.status = status;
         if(status.equals(OrderStatus.Cancelled)){
             cart.clearCart();

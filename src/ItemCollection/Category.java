@@ -1,5 +1,4 @@
 package ItemCollection;
-import Items.Items;
 
 import java.util.ArrayList;
 
@@ -9,17 +8,6 @@ public class Category {
     private String name;
     private double discount;
 
-    public boolean addCategory(String categoryName){
-        for (String name: names) {
-            if(name.equals(categoryName)){
-                return false;
-            }
-        }
-        this.names.add(categoryName);
-        this.name = categoryName;
-        return true;
-    }
-
     public ArrayList<Items> getItems() {
         return items;
     }
@@ -27,23 +15,16 @@ public class Category {
     public double getDiscount() {
         return discount;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-
-    public void addItem(Items item){
-        items.add(item);
-    }
-
-    public void deleteItem(Items item){
-        for (int i = 0; i < items.size(); i++) {
-            if(items.get(i) == item){
-                items.remove(i);
-            }
-        }
+    public ArrayList<String> getNames() {
+        return names;
     }
 }

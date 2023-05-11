@@ -1,14 +1,13 @@
-package View;
+package AdminDetails;
 import java.util.Random;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class OTP_manager {
+public class OTPManager {
 
-    public static int generateOTP(int otpLength)
-    {
+    public static int generateOTP(int otpLength) {
         Random random=new Random();
 
         StringBuilder sb=new StringBuilder();
@@ -23,8 +22,7 @@ public class OTP_manager {
 
         return code;
     }
-    public boolean sendOTP(String email , int code)
-    {
+    public boolean sendOTP(String email , int code) {
         String host = "smtp.gmail.com";
         String username = "fcaitoffeeshop@gmail.com";
         String password = "dfpzbhgihyfxtbjp";

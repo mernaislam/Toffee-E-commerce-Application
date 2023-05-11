@@ -1,11 +1,10 @@
 package OrderDetails;
 
-import CustomerDetails.Customer;
-
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import View.OTP_manager;
+import CustomerDetails.CustomerManager;
+import AdminDetails.OTPManager;
 
 public class CoD extends PaymentMethod{
     private String email;
@@ -18,18 +17,19 @@ public class CoD extends PaymentMethod{
         return email;
     }
 
-    public void pay(Order order, Customer customer) throws IOException {
+    public void pay(Order order, CustomerManager customer) throws IOException {
+        CustomerManager customerManager = new CustomerManager();
         Scanner s = new Scanner(System.in);
         System.out.println("Please enter your email: ");
         String email = s.nextLine();
-        while(!Customer.isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
+        while(!customerManager.isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
             System.out.print("Please enter a valid email: ");
             email = s.nextLine();
         }
         setEmail(email);
         System.out.println("Verifying your email... ");
-        OTP_manager otp = new OTP_manager();
-        int code = OTP_manager.generateOTP(8);
+        OTPManager otp = new OTPManager();
+        int code = OTPManager.generateOTP(8);
         otp.sendOTP(getEmail(), code);
         try {
             TimeUnit.SECONDS.sleep(3);
@@ -42,18 +42,18 @@ public class CoD extends PaymentMethod{
             System.out.print("Invalid OTP, try again: ");
             OTP = s.nextInt();
         }
-        System.out.println("Your paying " + customer.getCart().getTotalPrice() + " using cash on delivery");
+//        System.out.println("Your paying " + customer.getCart().getTotalPrice() + " using cash on delivery");
         System.out.println("Do you want to confirm?\n 1. Yes \n 2. No");
         Scanner s2 = new Scanner(System.in);
         int confirm = s2.nextInt();
         if(confirm == 1){
             System.out.println("Order placed successfully!");
-            customer.addOrder(order);
+//            customer.addOrder(order);
             order.setStatus(OrderStatus.Closed);
         } else if(confirm == 2){
             System.out.println("Order Cancelled");
             order.setStatus(OrderStatus.Cancelled);
-            customer.displayMainMenu();
+//            customer.displayMainMenu();
         }
     }
 }

@@ -1,7 +1,5 @@
-package Items;
+package ItemCollection;
 import FileIO.WritingToFile;
-import ItemCollection.Catalog;
-import ItemCollection.Category;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,7 +15,6 @@ public class Items {
     private double discountAmount;
     private ItemStatus itemStatus;
     private String description;
-
 
     public Items(String name, double price, int quantity, String category, String brand) {
         this.name = name;
@@ -46,30 +43,17 @@ public class Items {
         this.id = newId;
     }
 
-    public void writeItemToFile(){
-        String ItemFullData = id + "\t\t" + name + "\t\t" + price + "\t\t" + quantity + "\t\t" + category + "\t\t" + brand;
-        String ItemData = id + "\t\t" + name + "\t\t" + price + "\t\t" + quantity;
-
-        WritingToFile writeItem = new WritingToFile("ItemList", ItemData);
-        WritingToFile writeFullItem = new WritingToFile("ItemFullData", ItemFullData);
-    }
-
-//    //Needed if we want to add this item to another category
-//    public void addCategory(Category category){
-//        categories.add(category);
-//        category.addItem(this);
-//    }
     public void setItemStatus(ItemStatus itemStatus)
     {
         this.itemStatus = itemStatus;
     }
+
     public void setQuantity(int quantity)
     {
         this.quantity = quantity;
     }
 
-    public void setDiscountAmount(double discountAmount)
-    {
+    public void setDiscountAmount(double discountAmount) {
         this.discountAmount = discountAmount;
         price -= (price*discountAmount);
     }
@@ -88,10 +72,6 @@ public class Items {
     {
         return quantity;
     }
-//    //Needed if we want to change the original price of the item
-//    public void setPrice(double price) {
-//        this.price = price;
-//    }
 
     public String getCategory()
     {
@@ -102,12 +82,15 @@ public class Items {
     {
         this.unitType = unitType;
     }
+
     public int getId(){
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }

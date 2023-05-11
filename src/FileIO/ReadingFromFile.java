@@ -17,6 +17,7 @@ public class ReadingFromFile {
             throw new RuntimeException(e);
         }
     }
+
     public boolean isEmailExist(String fileName, String toSearch){
         try {
             reader = new BufferedReader (new FileReader("Toffee-E-commerce-Application/" + fileName + ".txt"));
@@ -33,6 +34,7 @@ public class ReadingFromFile {
             throw new RuntimeException(e);
         }
     }
+
     public int getLineNumber(String fileName, String categoryName){
         int cnt = 0;
         boolean found = false;

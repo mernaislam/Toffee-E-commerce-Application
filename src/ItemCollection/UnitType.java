@@ -1,4 +1,4 @@
-package Items;
+package ItemCollection;
 
 public enum UnitType {
     Loose,

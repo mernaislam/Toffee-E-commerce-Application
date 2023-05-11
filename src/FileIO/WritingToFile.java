@@ -8,6 +8,7 @@ public class WritingToFile {
     BufferedReader reader;
 
     public WritingToFile(){}
+
     public WritingToFile(String fileName, String line){
         try {
             writer = new BufferedWriter (new FileWriter("Toffee-E-commerce-Application/" + fileName + ".txt", true));
@@ -18,8 +19,7 @@ public class WritingToFile {
         }
     }
 
-    public void clearFile(String fileName)
-    {
+    public void clearFile(String fileName) {
         try{
             FileWriter fw = new FileWriter("Toffee-E-commerce-Application/" + fileName + ".txt", false);
             PrintWriter pw = new PrintWriter(fw, false);
