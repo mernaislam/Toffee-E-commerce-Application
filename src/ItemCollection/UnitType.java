@@ -1,6 +1,7 @@
 package ItemCollection;
 
-public enum UnitType {
+public enum UnitType
+{
     Loose,
     Sealed
 }

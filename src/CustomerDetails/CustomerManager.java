@@ -20,7 +20,8 @@ import ShoppingCart.CartManager;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
-public class CustomerManager {
+public class CustomerManager
+{
     Customer customer = new Customer();
 
     public boolean login(){
@@ -33,63 +34,82 @@ public class CustomerManager {
         return login(username, password);
     }
 
-    public boolean login(String username, String password){
+    public boolean login(String username, String password)
+    {
         BufferedReader reader;
-        try {
+        try
+        {
             reader = new BufferedReader(new FileReader("Toffee-E-commerce-Application/CustomerDetails.txt"));
             String line;
             boolean found = false;
-            while((line = reader.readLine()) != null){
-                if(line.equals(username)){
+            while((line = reader.readLine()) != null)
+            {
+                if(line.equals(username))
+                {
                     found = true;
                     line = reader.readLine();
-                    if(line.equals(password)){
+                    if(line.equals(password))
+                    {
                         System.out.println("Successfully Logged in\n");
-                    } else {
+                    } else
+                    {
                         int cnt = 3;
-                        while(cnt != 0){
+                        while(cnt != 0)
+                        {
                             System.out.print("Incorrect Password, please try again: ");
                             Scanner s = new Scanner(System.in);
                             password = s.nextLine();
-                            if(line.equals(password)){
+                            if(line.equals(password))
+                            {
                                 System.out.println("Successfully Logged in\n");
                                 return true;
                             }
                             cnt--;
                         }
-                        if(cnt == 0){
+                        if(cnt == 0)
+                        {
                             System.out.println("Failed to log in");
                             return false;
                         }
                     }
                 }
             }
-            if(!found){
+            if(!found)
+            {
                 System.out.println("Username not found please try again: ");
                 login();
             }
             reader.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
         return true;
     }
 
-    public void register(){
+    public void register()
+    {
         Scanner s = new Scanner(System.in);
         System.out.print("Please enter a username: ");
         String username = s.nextLine();
 
         // verify username does not exists to prevent duplicates
         ReadingFromFile read = new ReadingFromFile();
-        while(read.isEmailExist("CustomerDetails", username) || !isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
-            if(read.isEmailExist("CustomerDetails", username)) {
+        while(read.isEmailExist("CustomerDetails", username) || !isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$"))
+        {
+            if(read.isEmailExist("CustomerDetails", username))
+            {
                 System.out.print("Username already exists, please enter another username: ");
                 username = s.nextLine();
-            } else if(!isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
+            }
+            else if(!isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$"))
+            {
                 System.out.print("Invalid format for username (ex: alex_tom): ");
                 username = s.nextLine();
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
@@ -98,7 +118,8 @@ public class CustomerManager {
         String email = s.nextLine();
 
         // validate email
-        while(!isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
+        while(!isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"))
+        {
             System.out.print("Please enter a valid email: ");
             email = s.nextLine();
         }
@@ -107,7 +128,8 @@ public class CustomerManager {
         String pass1 = s.nextLine();
 
         // regex strong password
-        while(!isValid(pass1, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$")){
+        while(!isValid(pass1, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$"))
+        {
             System.out.print("Please enter a strong password: ");
             pass1 = s.nextLine();
         }
@@ -115,7 +137,8 @@ public class CustomerManager {
         String pass2 = s.nextLine();
 
         // validate password in re-entering
-        while(!pass1.equals(pass2)){
+        while(!pass1.equals(pass2))
+        {
             System.out.println("Passwords does not match, please re-enter the passwords:");
             System.out.print("Please re-enter the password: ");
             pass2 = s.nextLine();
@@ -148,7 +171,8 @@ public class CustomerManager {
         login(username, pass1);
     }
 
-    public void displayMainMenu() throws IOException {
+    public void displayMainMenu() throws IOException
+    {
         CollectionManager collectionManager = new CollectionManager();
         BufferedReader read;
         String strId;
@@ -158,7 +182,8 @@ public class CustomerManager {
         double doublePrice;
         int intQuantity;
         String line;
-        try {
+        try
+        {
             read = new BufferedReader(new FileReader("Toffee-E-commerce-Application/ItemFullData.txt"));
             while((line = read.readLine()) != null){
                 String[] words = line.split("\t\t");
@@ -178,20 +203,27 @@ public class CustomerManager {
                 }
             }
             read.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
         ArrayList<String> categories = new ArrayList<>();
-        for (Items items: collectionManager.getCatalogItems()) {
-            if(!categories.contains(items.getCategory())){
+        for (Items items: collectionManager.getCatalogItems())
+        {
+            if(!categories.contains(items.getCategory()))
+            {
                 categories.add(items.getCategory());
             }
         }
-        for (String category: categories) {
+        for (String category: categories)
+        {
             Category category1 = new Category();
             category1.setName(category);
-            for (Items item: collectionManager.getCatalogItems()) {
-                if(item.getCategory().equals(category)){
+            for (Items item: collectionManager.getCatalogItems())
+            {
+                if(item.getCategory().equals(category))
+                {
                     collectionManager.addItemCategory(item, category1);
                 }
             }
@@ -207,13 +239,17 @@ public class CustomerManager {
                 System.out.println("\nSpecify your choice: ");
                 System.out.println("1. choose Item to add to cart. \n2. Return to main menu.");
                 choice = s.nextInt();
-                while(choice != 1 && choice != 2){
+                while(choice != 1 && choice != 2)
+                {
                     System.out.print("Invalid Choice, try again: ");
                     choice = s.nextInt();
                 }
-                if(choice == 1){
+                if(choice == 1)
+                {
                     chooseItem(collectionManager.getCatalog());
-                } else {
+                }
+                else
+                {
                     displayMainMenu();
                 }
                 return;
@@ -223,52 +259,64 @@ public class CustomerManager {
                 System.out.println("\nSpecify your choice: ");
                 System.out.println("1. choose Item to add to cart. \n2. Return to main menu.");
                 choice = s.nextInt();
-                while(choice != 1 && choice != 2){
+                while(choice != 1 && choice != 2)
+                {
                     System.out.print("Invalid Choice, try again: ");
                     choice = s.nextInt();
                 }
-                if(choice == 1){
+                if(choice == 1)
+                {
                     chooseItem(collectionManager.getCatalog());
-                } else {
+                }
+                else
+                {
                     displayMainMenu();
                 }
                 return;
             }
-            case 3: {
+            case 3:
+            {
                 checkout(collectionManager.getCatalog());
                 return;
             }
-            case 4: {
+            case 4:
+            {
                 System.out.println("Thank you for using Toffee!");
                 return;
             }
-            default: {
+            default:
+            {
                 System.out.println("Invalid Choice try again:");
                 displayMainMenu();
             }
         }
     }
 
-    public void addToCart(Items item, int quantity){
+    public void addToCart(Items item, int quantity)
+    {
         CartManager cartManager = new CartManager();
         cartManager.setCart(customer.getCart());
         cartManager.addItem(item);
-        while(quantity != 0){
+        while(quantity != 0)
+        {
             cartManager.addToMap(item);
             quantity--;
         }
     }
 
-    public void chooseItem(Catalog catalog) throws IOException {
+    public void chooseItem(Catalog catalog) throws IOException
+    {
         Scanner s = new Scanner(System.in);
         System.out.print("Enter Item number: ");
         int itemChoice = s.nextInt();
         boolean isFound = false;
-        for (Items item: catalog.getItems()) {
+        for (Items item: catalog.getItems())
+        {
             if(item.getId() == itemChoice){
                 System.out.print("Enter Item Quantity: ");
                 int quantity = s.nextInt();
-                while (quantity > item.getQuantity() || quantity > 50 || quantity < 1){
+                while (quantity > item.getQuantity() || quantity > 50 || quantity < 1)
+                {
                     System.out.println("Invalid Quantity, maximum quantity available is: " + item.getQuantity() + " (Note: should be less than 50)");
                     System.out.print("Re-enter Item Quantity: ");
                     quantity = s.nextInt();
@@ -285,7 +333,8 @@ public class CustomerManager {
                 break;
             }
         }
-        if(!isFound){
+        if(!isFound)
+        {
             System.out.println("Invalid Item number, please try again!");
             chooseItem(catalog);
         }
@@ -295,79 +344,101 @@ public class CustomerManager {
             System.out.print("Invalid Choice, try again: ");
             choice = s.nextInt();
         }
-        if (choice == 1){
+        if (choice == 1)
+        {
             checkout(catalog);
-        } else if(choice == 2){
+        } else if(choice == 2)
+        {
             chooseItem(catalog);
-        } else {
+        } else
+        {
             displayMainMenu();
         }
     }
 
-    public void checkout(Catalog catalog) throws IOException {
+    public void checkout(Catalog catalog) throws IOException
+    {
         Order order = new Order("1", customer.getCart());
         if(order.displayOrderDetails()){
             System.out.println("\tNothing in cart for checkout! ");
             System.out.println("Returning to main menu... ");
-            try {
+            try
+            {
                 TimeUnit.SECONDS.sleep(3);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             displayMainMenu();
-        } else {
+        }
+        else
+        {
             customer.getCart().setTotalPrice();
             System.out.println("Total Price = " + customer.getCart().getTotalPrice() + "\n");
             Scanner s = new Scanner(System.in);
             System.out.println("1. Proceed to payment. \n2. Add another item. \n3. Return to main menu");
             int choice = s.nextInt();
-            while(choice != 1 && choice != 2 && choice != 3){
+            while(choice != 1 && choice != 2 && choice != 3)
+            {
                 System.out.print("Invalid Choice, try again: ");
                 choice = s.nextInt();
             }
-            if(choice == 1){
+            if(choice == 1)
+            {
                 PaymentMethod paymentMethod = new CoD();
                 paymentMethod.pay(order, this);
-            } else if(choice == 2){
+            }
+            else if(choice == 2)
+            {
                 chooseItem(catalog);
-            } else {
+            }
+            else
+            {
                 displayMainMenu();
             }
         }
     }
 
-    public void addOrder(Order order){
+    public void addOrder(Order order)
+    {
         customer.getOrders().add(order);
     }
 
-    public static boolean isValid(String input, String regexData) {
+    public static boolean isValid(String input, String regexData)
+    {
         Pattern pattern = Pattern.compile(regexData);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }
 
-    public void runUserApp() throws IOException {
+    public void runUserApp() throws IOException
+    {
         CustomerManager customer = new CustomerManager();
         Scanner sc = new Scanner(System.in);
         System.out.println("Toffee Application");
         System.out.println("1. Register. \n2. Login.");
         System.out.print("Enter Choice: ");
         int choice = sc.nextInt();
-        while(choice != 1 && choice != 2){
+        while(choice != 1 && choice != 2)
+        {
             System.out.print("Invalid Choice, try again: ");
             choice = sc.nextInt();
         }
-        if(choice == 1){
+        if(choice == 1)
+        {
             customer.register();
-        } else {
-            if(customer.login()){
+        }
+        else
+        {
+            if(customer.login())
+            {
                 System.out.println("\nWelcome to Toffee Application");
                 displayMainMenu();
             }
         }
     }
 
-    public Customer getCustomer() {
+    public Customer getCustomer()
+    {
         return customer;
     }
 }

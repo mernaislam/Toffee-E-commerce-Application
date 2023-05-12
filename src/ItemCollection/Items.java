@@ -3,7 +3,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Items {
+public class Items
+{
     private int id;
     private String name;
     private double price;
@@ -15,7 +16,8 @@ public class Items {
     private ItemStatus itemStatus;
     private String description;
 
-    public Items(String name, double price, int quantity, String category, String brand) {
+    public Items(String name, double price, int quantity, String category, String brand)
+    {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
@@ -25,18 +27,23 @@ public class Items {
         String lastId = null;
         int newId = 1;
         String line;
-        try {
+        try
+        {
             read = new BufferedReader(new FileReader("Toffee-E-commerce-Application/ItemList.txt"));
-            while((line = read.readLine()) != null){
+            while((line = read.readLine()) != null)
+            {
                 String[] words = line.split("\t\t");
                 lastId = words[0];
             }
-            if(lastId != null) {
+            if(lastId != null)
+            {
                 newId = Integer.parseInt(lastId);
                 newId++;
             }
             read.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
         this.id = newId;
@@ -52,7 +59,8 @@ public class Items {
         this.quantity = quantity;
     }
 
-    public void setDiscountAmount(double discountAmount) {
+    public void setDiscountAmount(double discountAmount)
+    {
         this.discountAmount = discountAmount;
         price -= (price*discountAmount);
     }
@@ -86,15 +94,18 @@ public class Items {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public String getBrand() {
+    public String getBrand()
+    {
         return brand;
     }
 }

@@ -6,7 +6,8 @@ import ShoppingCart.CartManager;
 
 import java.util.Date;
 
-public class Order {
+public class Order
+{
     private String id;
     private Date date;
     private Double totalPrice;
@@ -15,38 +16,46 @@ public class Order {
     private PaymentMethod payment;
     private OrderStatus status;
 
-    public Order(String id,Cart cart){
+    public Order(String id,Cart cart)
+    {
         this.id = id;
         this.cart = cart;
         this.totalPrice = cart.getTotalPrice();
         this.status = OrderStatus.Open;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date)
+    {
         this.date = date;
     }
 
-    public void setShippingAddress(Address shippingAddress) {
+    public void setShippingAddress(Address shippingAddress)
+    {
         this.shippingAddress = shippingAddress;
     }
 
-    public void setStatus(OrderStatus status, Cart cart) {
+    public void setStatus(OrderStatus status, Cart cart)
+    {
         CartManager cartManager = new CartManager();
         this.status = status;
-        if(status.equals(OrderStatus.Cancelled)){
+        if(status.equals(OrderStatus.Cancelled))
+        {
             cartManager.clearCart(cart);
         }
     }
 
-    public void setPayment(PaymentMethod payment) {
+    public void setPayment(PaymentMethod payment)
+    {
         this.payment = payment;
     }
 
-    public boolean displayOrderDetails(){
+    public boolean displayOrderDetails()
+    {
         boolean isEmpty = true;
         System.out.println("\nYour Cart:");
         System.out.println("\tName\tPrice\tQuantity");
-        for (Items item: cart.getItems()) {
+        for (Items item: cart.getItems())
+        {
             isEmpty = false;
             System.out.println("\t" + item.getName() + "\t" + item.getPrice() + "\t" + cart.getMapValue(item));
         }

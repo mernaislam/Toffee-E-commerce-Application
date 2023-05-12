@@ -3,33 +3,40 @@ import OrderDetails.Order;
 import ShoppingCart.Cart;
 import java.util.ArrayList;
 
-public class Customer {
+public class Customer
+{
     private Account account;
     private static int id = 0;
     private Cart cart = new Cart();
     private ArrayList<Order> orders = new ArrayList<>();
 
-    public Cart getCart() {
+    public Cart getCart()
+    {
         return cart;
     }
 
-    public Account getAccount() {
+    public Account getAccount()
+    {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(Account account)
+    {
         this.account = account;
     }
 
-    public static int getId() {
+    public static int getId()
+    {
         return id;
     }
 
-    public static void setId(int id) {
+    public static void setId(int id)
+    {
         Customer.id = id;
     }
 
-    public ArrayList<Order> getOrders() {
+    public ArrayList<Order> getOrders()
+    {
         return orders;
     }
 }

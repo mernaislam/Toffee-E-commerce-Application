@@ -6,22 +6,27 @@ import java.util.concurrent.TimeUnit;
 import CustomerDetails.CustomerManager;
 import AdminDetails.OTPManager;
 
-public class CoD extends PaymentMethod{
+public class CoD extends PaymentMethod
+{
     private String email;
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void pay(Order order, CustomerManager customerManager) throws IOException {
+    public void pay(Order order, CustomerManager customerManager) throws IOException
+    {
         Scanner s = new Scanner(System.in);
         System.out.println("Please enter your email: ");
         String email = s.nextLine();
-        while(!customerManager.isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")){
+        while(!customerManager.isValid(email, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"))
+        {
             System.out.print("Please enter a valid email: ");
             email = s.nextLine();
         }
@@ -30,14 +35,18 @@ public class CoD extends PaymentMethod{
         OTPManager otp = new OTPManager();
         int code = OTPManager.generateOTP(8);
         otp.sendOTP(getEmail(), code);
-        try {
+        try
+        {
             TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e)
+        {
             throw new RuntimeException(e);
         }
         System.out.println("Enter your OTP number sent to your email: ");
         int OTP = s.nextInt();
-        while(OTP != code){
+        while(OTP != code)
+        {
             System.out.print("Invalid OTP, try again: ");
             OTP = s.nextInt();
         }
@@ -45,15 +54,19 @@ public class CoD extends PaymentMethod{
         System.out.println("Do you want to confirm?\n 1. Yes \n 2. No");
         Scanner s2 = new Scanner(System.in);
         int confirm = s2.nextInt();
-        while(confirm != 1 && confirm != 2){
+        while(confirm != 1 && confirm != 2)
+        {
             System.out.print("Invalid Choice, try again: ");
             confirm = s.nextInt();
         }
-        if(confirm == 1){
+        if(confirm == 1)
+        {
             System.out.println("Order placed successfully!");
             customerManager.addOrder(order);
             order.setStatus(OrderStatus.Closed, customerManager.getCustomer().getCart());
-        } else {
+        }
+        else
+        {
             System.out.println("Order Cancelled");
             order.setStatus(OrderStatus.Cancelled, customerManager.getCustomer().getCart());
             customerManager.displayMainMenu();

@@ -16,9 +16,11 @@ import java.util.Scanner;
 import static ItemCollection.UnitType.Loose;
 import static ItemCollection.UnitType.Sealed;
 
-public class AdminManager {
+public class AdminManager
+{
     Administrator admin = new Administrator();
-    public boolean login() throws IOException {
+    public boolean login() throws IOException
+    {
         Scanner s = new Scanner((System.in));
         System.out.println("Please enter your credentials.");
         System.out.print("Username: ");
@@ -28,13 +30,16 @@ public class AdminManager {
         return login(username, password);
     }
 
-    public boolean login(String username, String password) throws IOException {
+    public boolean login(String username, String password) throws IOException
+    {
         BufferedReader reader;
-        try{
+        try
+        {
             reader = new BufferedReader(new FileReader("Toffee-E-commerce-Application/AdminDetails.txt"));
             String line;
             boolean found = false;
-            while((line = reader.readLine()) != null){
+            while((line = reader.readLine()) != null)
+            {
                 if(line.equals(username))
                 {
                     found = true;
@@ -48,7 +53,8 @@ public class AdminManager {
                     else
                     {
                         int cnt = 3;
-                        while(cnt != 0){
+                        while(cnt != 0)
+                        {
                             System.out.print("In correct Password, please try again: ");
                             Scanner s = new Scanner(System.in);
                             password = s.nextLine();
@@ -59,14 +65,16 @@ public class AdminManager {
                             }
                             cnt--;
                         }
-                        if(cnt == 0){
+                        if(cnt == 0)
+                        {
                             System.out.println("Can't open the app: ");
                             return false;
                         }
                     }
                 }
             }
-            if(!found){
+            if(!found)
+            {
                 System.out.println("Username not found please try again: ");
                 login();
             }
@@ -79,21 +87,28 @@ public class AdminManager {
         return true;
     }
 
-    public void register() throws IOException {
+    public void register() throws IOException
+    {
         CustomerManager customerManager = new CustomerManager();
         String password;
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter the username: ");
         String username  = sc.nextLine();
         ReadingFromFile read = new ReadingFromFile();
-        while(read.isEmailExist("AdminDetails", username) || !CustomerManager.isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$")){
-            if(read.isEmailExist("AdminDetails", username)) {
+        while(read.isEmailExist("AdminDetails", username) || !CustomerManager.isValid(username, "^[a-zA-Z][a-zA-Z0-9_]{6,19}$"))
+        {
+            if(read.isEmailExist("AdminDetails", username))
+            {
                 System.out.print("Username already exists, please enter another username: ");
                 username = sc.nextLine();
-            } else if(!CustomerManager.isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$")) {
+            }
+            else if(!CustomerManager.isValid(username, "^[a-zA-Z][a-zA-Z0-9][_?]{6,19}$"))
+            {
                 System.out.print("Invalid format for username (ex: alex_tom): ");
                 username = sc.nextLine();
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
@@ -101,7 +116,8 @@ public class AdminManager {
         System.out.print("Please enter the password: ");
         password = sc.nextLine();
         // regex strong password
-        while(!CustomerManager.isValid(password, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$")){
+        while(!CustomerManager.isValid(password, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20}$"))
+        {
             System.out.print("Please enter a strong password: ");
             password = sc.nextLine();
         }
@@ -109,7 +125,8 @@ public class AdminManager {
         String pass2 = sc.nextLine();
 
         // validate password in re-entering
-        while(!password.equals(pass2)){
+        while(!password.equals(pass2))
+        {
             System.out.println("Passwords does not match, please re-enter the passwords:");
             System.out.print("Please re-enter the password: ");
             pass2 = sc.nextLine();
@@ -123,19 +140,23 @@ public class AdminManager {
         displayMainMenu();
     }
 
-    public void displayMainMenu() throws IOException {
+    public void displayMainMenu() throws IOException
+    {
         CollectionManager collectionManager = new CollectionManager();
         Scanner s = new Scanner(System.in);
         System.out.println("1. Add New Admin to The System. \n2. Add Item. \n3. Exit");
         System.out.println("Please enter your choice: ");
         int choice = s.nextInt();
-        switch (choice) {
-            case 1 -> {
+        switch (choice)
+        {
+            case 1 ->
+            {
                 register();
                 displayMainMenu();
                 return;
             }
-            case 2 -> {
+            case 2 ->
+            {
                 {
                     String name;
                     double price;
@@ -159,12 +180,14 @@ public class AdminManager {
                     System.out.println("1. Loose");
                     System.out.println("2. Sealed");
                     choice = s.nextInt();
-                    switch (choice) {
+                    switch (choice)
+                    {
                         case 1: {
                             item.setUnitType(Loose);
                             return;
                         }
-                        case 2: {
+                        case 2:
+                        {
                             item.setUnitType(Sealed);
                             return;
                         }
@@ -176,16 +199,20 @@ public class AdminManager {
                     String ItemData = item.getId() + "\t\t" + name + "\t\t" + price + "\t\t" + quantity;
                     ReadingFromFile read = new ReadingFromFile();
                     WritingToFile writer = new WritingToFile();
-                    if (!read.isEmailExist("CategoriesList", category + ":")) {
+                    if (!read.isEmailExist("CategoriesList", category + ":"))
+                    {
                         // add the category to the catalog
                         // add the item to the category
                         WritingToFile write = new WritingToFile("CategoriesList", category + ":");
                         WritingToFile writeItem = new WritingToFile("CategoriesList", ItemData);
-                    } else {
-
+                    }
+                    else
+                    {
                         //loop on the categories in the catalog to get the category you want and add the item in it
-                        for (int i = 0; i < categories.size(); i++) {
-                            if (categories.get(i).getName().equals(category)) {
+                        for (int i = 0; i < categories.size(); i++)
+                        {
+                            if (categories.get(i).getName().equals(category))
+                            {
                                 collectionManager.addItemCategory(item, categories.get(i));
                                 break;
                             }
@@ -195,21 +222,24 @@ public class AdminManager {
                 }
                 displayMainMenu();
             }
-            case 3 -> {
+            case 3 ->
+            {
                 System.out.println("Thank you for using Toffee!");
             }
-            default -> {
+            default ->
+            {
                 System.out.println("Invalid Choice try again:");
                 displayMainMenu();
             }
         }
     }
 
-    public void runAdminApp() throws IOException {
+    public void runAdminApp() throws IOException
+    {
         System.out.println("Toffee Application");
-        if(login()){
+        if(login())
+        {
             displayMainMenu();
         }
     }
-
 }

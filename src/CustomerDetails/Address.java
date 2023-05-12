@@ -9,7 +9,8 @@ public class Address {
     private int flatNo;
     private String landmark;
 
-    public Address(String gov, String street, String district, int buildingNo, int floorNo, int flatNo) {
+    public Address(String gov, String street, String district, int buildingNo, int floorNo, int flatNo)
+    {
         this.governorate = gov;
         this.street = street;
         this.district = district;
@@ -18,7 +19,8 @@ public class Address {
         this.flatNo = flatNo;
     }
 
-    public void setLandmark(String landmark) {
+    public void setLandmark(String landmark)
+    {
         this.landmark = landmark;
     }
 }

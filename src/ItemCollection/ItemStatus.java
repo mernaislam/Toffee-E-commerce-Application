@@ -1,6 +1,7 @@
 package ItemCollection;
 
-public enum ItemStatus {
+public enum ItemStatus
+{
     OnSale,
     NotOnSale,
     OutOfStock
