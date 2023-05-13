@@ -3,12 +3,12 @@
 3		Bounty		30.0		0		Chocolates		Bounty
 4		Milka		78.5		38		Chocolates		Cadbury
 5		Kitkat		40.0		10		Chocolates		Kitkat
-6		Kinder		28.9		17		Chocolates		Kinder
+6		Kinder		28.9		15		Chocolates		Kinder
 7		Haribo		60.0		4		Marshmallow		Chamallows
 8		Bebeto		30.0		1		Marshmallow		Bebeto
 9		MrMalo		30.0		4		Marshmallow		Mr,Malo
-13		Flutes		30.0		5		Chocolates		Galaxy
-14		Bubbly		19.0		40		Cadbury		Cadbury
+13		Flutes		30.0		3		Chocolates		Galaxy
+14		Bubbly		19.0		35		Cadbury		Cadbury
 15		Nour		59.0		1		Chocolates		FCAI
 16		Candy		79.0		5		Sweets		Sweets
 17		M&Ms		90.0		30		Chocolates		M&Ms

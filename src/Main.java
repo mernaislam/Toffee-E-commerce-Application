@@ -8,7 +8,7 @@ public class Main {
     {
         CustomerManager customer = new CustomerManager();
         AdminManager adminManager = new AdminManager();
-        adminManager.runAdminApp();
+        //adminManager.runAdminApp();
        customer.runUserApp();
     }
 }

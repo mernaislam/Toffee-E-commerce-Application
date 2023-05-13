@@ -20,10 +20,19 @@ import ShoppingCart.CartManager;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+/**
+ * This is a class that manages functions done by the customer.
+ */
 public class CustomerManager
 {
+    /**
+     * The customer the class manages
+     */
     Customer customer = new Customer();
-
+    /**
+     * Logs the customer in the system
+     *@return true if the customer is logged in, false otherwise
+     */
     public boolean login(){
         Scanner s = new Scanner(System.in);
         System.out.println("Please enter your credentials.");
@@ -33,7 +42,12 @@ public class CustomerManager
         String password = s.nextLine();
         return login(username, password);
     }
-
+    /**
+     * Logs the customer in the system
+     * @param username the username of the customer
+     * @param password the password of the customer
+     *@return true if the customer is logged in, false otherwise
+     */
     public boolean login(String username, String password)
     {
         BufferedReader reader;
@@ -87,7 +101,9 @@ public class CustomerManager
         }
         return true;
     }
-
+    /**
+     * Registers a new customer in the system
+     */
     public void register()
     {
         Scanner s = new Scanner(System.in);
@@ -171,6 +187,9 @@ public class CustomerManager
         login(username, pass1);
     }
 
+    /**
+     * Displays the main menu of the customer app
+     */
     public void displayMainMenu() throws IOException
     {
         CollectionManager collectionManager = new CollectionManager();
@@ -291,7 +310,11 @@ public class CustomerManager
             }
         }
     }
-
+    /**
+     * Makes the customer able to add item to the cart
+     * @param item the item the customer wants to add to the cart
+     * @param quantity the quantity the customer wants from this item
+     */
     public void addToCart(Items item, int quantity)
     {
         CartManager cartManager = new CartManager();
@@ -303,7 +326,10 @@ public class CustomerManager
             quantity--;
         }
     }
-
+    /**
+     * Makes the customer able to choose item from the catalog
+     * @param catalog list of all available items in the system
+     */
     public void chooseItem(Catalog catalog) throws IOException
     {
         Scanner s = new Scanner(System.in);
@@ -355,7 +381,10 @@ public class CustomerManager
             displayMainMenu();
         }
     }
-
+    /**
+     * Makes the customer able to check out after choosing wanted items and their quantity and choose his ext step
+     * @param catalog list of all available items in the system
+     */
     public void checkout(Catalog catalog) throws IOException
     {
         Order order = new Order("1", customer.getCart());
@@ -397,19 +426,28 @@ public class CustomerManager
             }
         }
     }
-
+    /**
+     * Adds the confirmed order to list of orders of that customer
+     * @param order list of all available items in the system
+     */
     public void addOrder(Order order)
     {
         customer.getOrders().add(order);
     }
-
+    /**
+     * Checks if the given string follows a specific regex pattern
+     * @param input string to be checked
+     * @param regexData regex pattern to follow
+     */
     public static boolean isValid(String input, String regexData)
     {
         Pattern pattern = Pattern.compile(regexData);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }
-
+    /**
+     * Runs the administrator app
+     */
     public void runUserApp() throws IOException
     {
         CustomerManager customer = new CustomerManager();
@@ -436,7 +474,10 @@ public class CustomerManager
             }
         }
     }
-
+    /**
+     * Returns the customer using the system
+     * @return customer using the system
+     */
     public Customer getCustomer()
     {
         return customer;

@@ -6,20 +6,42 @@ import java.util.concurrent.TimeUnit;
 import CustomerDetails.CustomerManager;
 import AdminDetails.OTPManager;
 
+/**
+ * A class representing a cash on delivery payment method for an order.
+ */
 public class CoD extends PaymentMethod
 {
+    /**
+     * ID of the customer
+     */
     private String email;
+    /**
+     * Sets the email address for the CoD payment method.
+     *
+     * @param email the email address to set
+     */
+
 
     public void setEmail(String email)
     {
         this.email = email;
     }
-
+    /**
+     * Returns the email address for the CoD payment method.
+     *
+     * @return the email address for the CoD payment method
+     */
     public String getEmail()
     {
         return email;
     }
-
+    /**
+     * Processes a cash on delivery payment for an order.
+     *
+     * @param order the order to be paid
+     * @param customerManager the customer manager for the customer placing the order
+     * @throws IOException if an I/O error occurs
+     */
     public void pay(Order order, CustomerManager customerManager) throws IOException
     {
         Scanner s = new Scanner(System.in);

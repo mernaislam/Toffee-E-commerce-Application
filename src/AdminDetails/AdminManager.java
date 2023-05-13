@@ -16,9 +16,19 @@ import java.util.Scanner;
 import static ItemCollection.UnitType.Loose;
 import static ItemCollection.UnitType.Sealed;
 
+/**
+ * This is a class that manages functions done by the administrator.
+ */
 public class AdminManager
 {
+    /**
+     * The administrator the class manages
+     */
     Administrator admin = new Administrator();
+    /**
+     * Logs the administrator in the system
+     *@return true if the admin is logged in, false otherwise
+     */
     public boolean login() throws IOException
     {
         Scanner s = new Scanner((System.in));
@@ -29,6 +39,12 @@ public class AdminManager
         String password = s.nextLine();
         return login(username, password);
     }
+    /**
+     * Logs the administrator in the system
+     * @param username the username of the administrator
+     * @param password the password of the administrator
+     *@return true if the admin is logged in, false otherwise
+     */
 
     public boolean login(String username, String password) throws IOException
     {
@@ -86,7 +102,9 @@ public class AdminManager
         }
         return true;
     }
-
+    /**
+     * Registers a new administrator in the system
+     */
     public void register() throws IOException
     {
         CustomerManager customerManager = new CustomerManager();
@@ -139,7 +157,9 @@ public class AdminManager
         admin.setAccount(acc);
         displayMainMenu();
     }
-
+    /**
+     * Displays the main menu of the administrator app
+     */
     public void displayMainMenu() throws IOException
     {
         CollectionManager collectionManager = new CollectionManager();
@@ -233,7 +253,9 @@ public class AdminManager
             }
         }
     }
-
+    /**
+     * Runs the administrator app
+     */
     public void runAdminApp() throws IOException
     {
         System.out.println("Toffee Application");

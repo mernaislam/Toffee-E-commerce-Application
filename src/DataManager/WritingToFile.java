@@ -3,13 +3,27 @@ package DataManager;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * This is a class that manages accessing and updating the data of the system.
+ */
 public class WritingToFile
 {
+    /**
+     * BufferedWriter used for writing into a file.
+     */
     BufferedWriter writer;
+    /**
+     * BufferedReader used for reading from a file.
+     */
     BufferedReader reader;
 
     public WritingToFile(){}
 
+    /**
+     * Constructor that adds a new line to the desired file
+     * @param fileName the name of the text file
+     * @param line the line content to add in the text file
+     * */
     public WritingToFile(String fileName, String line)
     {
         try
@@ -23,7 +37,10 @@ public class WritingToFile
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Clears the desired file
+     * @param fileName the name of the text file
+     * */
     public void clearFile(String fileName)
     {
         try
@@ -40,7 +57,12 @@ public class WritingToFile
         }
 
     }
-
+    /**
+     * Add content to the desired file after adding a new line in a specific position
+     * @param fileName the name of the text file
+     * @param lineContent the line content to add in the text file
+     * @param categoryName the line before the position where we want to add the line
+     * */
     public void addUpdatedFileContent(String fileName,String lineContent, String categoryName) throws IOException
     {
         ReadingFromFile read = new ReadingFromFile();
@@ -76,7 +98,12 @@ public class WritingToFile
         }
         writer.close();
     }
-
+    /**
+     * Update a
+     * @param fileName the name of the text file
+     * @param toAdd the new quantity to add
+     * @param search the id of the item whose quantity needs to be updated
+     * */
     public void updateItemQuantity(String fileName, String toAdd, int search) throws IOException
     {
         String value = Integer.toString(search);

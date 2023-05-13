@@ -2,9 +2,20 @@ package DataManager;
 
 import java.io.*;
 
+/**
+ * This is a class that manages accessing and reading the data of the system.
+ */
 public class ReadingFromFile
 {
+    /**
+     * BufferedReader used for reading from a file.
+     */
     BufferedReader reader;
+
+    /**
+     * Displays the content of a file
+     * @param fileName the name of the text file
+     */
 
     public void display(String fileName)
     {
@@ -23,7 +34,12 @@ public class ReadingFromFile
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Checks if a word exists in a text file
+     * @param fileName the name of the text file
+     * @param toSearch the word to search for
+     * @return true if the word is found, otherwise returns false
+     */
     public boolean isEmailExist(String fileName, String toSearch)
     {
         try
@@ -46,7 +62,12 @@ public class ReadingFromFile
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Finds the position of the desired line in the file
+     * @param fileName the name of the text file
+     * @param categoryName the line content to get its number in the text file
+     * @return line number of the desired line in the file
+     * */
     public int getLineNumber(String fileName, String categoryName)
     {
         int cnt = 0;
