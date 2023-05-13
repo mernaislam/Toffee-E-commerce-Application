@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"AdminDetails"},{"l":"All Packages","u":"allpackages-index.html"},{"l":"CustomerDetails"},{"l":"DataManager"},{"l":"ItemCollection"},{"l":"OrderDetails"},{"l":"ShoppingCart"}];updateSearchResults();
